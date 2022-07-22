@@ -36,7 +36,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontFamily: "Montserrat",
     fontSize: "20px",
     lineHeight: "20px",
-    width: "200px",
+    width: "20%",
   },
   [`&.${tableCellClasses.body}`]: {
     fontFamily: "Roboto",
@@ -45,7 +45,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: "white",
     fontStyle: "normal",
     fontWeight: "400",
-    width: "200px",
+    width: "20%",
     border: 0,
   },
 }))
@@ -205,7 +205,7 @@ export default function MaterialTable() {
                       <VisibilityOutlinedIcon />
                     </IconButton>
                     <Popover
-                      sx={{ boxShadow: "0", backgroundColor: "#0A222D" }}
+                      sx={{ boxShadow: "0" }}
                       id={id}
                       open={open}
                       anchorEl={anchorEl}
@@ -227,7 +227,7 @@ export default function MaterialTable() {
                           justifyContent: "space-between",
                           alignItems: "center",
                           width: "410px",
-                          height: "700px",
+                          height: "auto",
                           paddingTop: "40px",
                           paddingBottom: "60px",
                           backgroundColor: "#0A222D",
@@ -269,7 +269,7 @@ export default function MaterialTable() {
                             sx={{
                               backgroundColor: "white",
                               borderRadius: "8px",
-                              width: "300px",
+                              width: "268px",
                               paddingTop: "12px",
                               paddingBottom: "12px",
                               paddingLeft: "16px",
@@ -287,7 +287,8 @@ export default function MaterialTable() {
                                 fontFamily: "Roboto",
                               }}
                             >
-                              {character.origin.name}
+                              {character.origin.name.charAt(0).toUpperCase() +
+                                character.origin.name.slice(1)}
                             </Typography>
                           </Box>
                         </Box>
@@ -309,7 +310,7 @@ export default function MaterialTable() {
                             sx={{
                               backgroundColor: "white",
                               borderRadius: "8px",
-                              width: "300px",
+                              width: "268px",
                               paddingTop: "12px",
                               paddingBottom: "12px",
                               paddingLeft: "16px",
@@ -327,7 +328,8 @@ export default function MaterialTable() {
                                 fontFamily: "Roboto",
                               }}
                             >
-                              {character.location.name}
+                              {character.location.name.charAt(0).toUpperCase() +
+                                character.location.name.slice(1)}
                             </Typography>
                           </Box>
                         </Box>

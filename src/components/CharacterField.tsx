@@ -14,13 +14,13 @@ export const CharacterField = (title: string, value: string) => {
           marginBottom: "4px",
         }}
       >
-        {title}
+        {title.charAt(0).toUpperCase() + title.slice(1)}
       </Typography>
       <Box
         sx={{
           backgroundColor: "white",
           borderRadius: "8px",
-          width: "300px",
+          width: "268px",
           paddingTop: "12px",
           paddingBottom: "12px",
           paddingLeft: "16px",
@@ -38,7 +38,7 @@ export const CharacterField = (title: string, value: string) => {
             fontFamily: "Roboto",
           }}
         >
-          {value}
+          {value.charAt(0).toUpperCase() + value.slice(1)}
         </Typography>
       </Box>
     </Box>

@@ -1,8 +1,10 @@
-import { Container, Typography } from "@mui/material"
+import { Box, Container, Typography } from "@mui/material"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import "@fontsource/montserrat"
 import "./fonts.css"
 import TableCustom from "./components/CharactersTable"
+import MaterialTable from "./components/MaterialTable"
+import Image from "./components/Img"
 
 const theme = createTheme({
   typography: {
@@ -16,25 +18,39 @@ function App() {
       <Container
         maxWidth={false}
         sx={{
-          padding: "95px 0px",
+          padding: "60px 0px",
           backgroundColor: "#0A222D",
           width: "100%",
           margin: "auto",
         }}
       >
-        <Typography
+        <Box
           sx={{
-            fontSize: "30px",
-            fontWeight: "400",
-            lineHeight: "20px",
-            color: "#00DFDD",
-            width: "100%",
-            textAlign: "center",
+            display: "flex",
+            direction: "row",
+            alignItems: "end",
+            width: "87.5%",
+            margin: "auto",
           }}
         >
-          Rick and Morty characters
-        </Typography>
-        <TableCustom />
+          <Typography
+            sx={{
+              fontSize: "40px",
+              fontWeight: "400",
+              lineHeight: "20px",
+              color: "#00DFDD",
+              width: "100%",
+              textAlign: "center",
+              flex: "1",
+              marginBottom: "20px",
+              fontFamily: "Montserrat",
+            }}
+          >
+            Rick and Morty characters
+          </Typography>
+          <Image />
+        </Box>
+        <MaterialTable />
       </Container>
     </ThemeProvider>
   )

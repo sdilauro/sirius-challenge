@@ -1,13 +1,8 @@
 import { Typography, Box } from "@mui/material"
-import { characterProperty } from "../Interfaces"
 
-interface Props {
-  property: characterProperty
-}
-
-export const CharacterField = ({ property }: Props) => {
+export const CharacterField = (title: string, value: string) => {
   return (
-    <Box>
+    <Box sx={{ marginTop: "10px", marginBottom: "10px" }}>
       <Typography
         sx={{
           color: "white",
@@ -19,7 +14,7 @@ export const CharacterField = ({ property }: Props) => {
           marginBottom: "4px",
         }}
       >
-        {property.key}
+        {title}
       </Typography>
       <Box
         sx={{
@@ -34,6 +29,7 @@ export const CharacterField = ({ property }: Props) => {
       >
         <Typography
           sx={{
+            minHeight: "20px",
             color: "#777777",
             fontSize: "14px",
             fontWeight: "400",
@@ -42,7 +38,7 @@ export const CharacterField = ({ property }: Props) => {
             fontFamily: "Roboto",
           }}
         >
-          {property.value}
+          {value}
         </Typography>
       </Box>
     </Box>

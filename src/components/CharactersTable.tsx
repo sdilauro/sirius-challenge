@@ -28,38 +28,6 @@ export default function RankingTable() {
 
   useEffect(() => {
     api
-      .getCharacters(pageCount, characterName)
-      .then((json) => {
-        setLoading(false)
-        setCharacterList(json.results)
-        setPageCount(json.info.pages)
-      })
-      .catch((err) => {
-        console.log("No se pudo consultar la API de Rick & Morty", err)
-      })
-  }, [])
-
-  const handleChangePage = (
-    event: React.ChangeEvent<unknown>,
-    page: number
-  ) => {
-    api
-      .getCharacters(page, characterName)
-      .then((json) => {
-        setLoading(false)
-        setCharacterList(json.results)
-        setSelectedPage(page)
-      })
-      .catch((err) => {
-        console.log("No se pudo consultar la API de Rick & Morty", err)
-      })
-  }
-
-  const onChangeHandler = (event: {
-    target: { value: SetStateAction<string> }
-  }) => {
-    setCharacterName(event.target.value)
-    api
       .getCharacters(selectedPage, characterName)
       .then((json) => {
         setLoading(false)
@@ -67,13 +35,21 @@ export default function RankingTable() {
         setPageCount(json.info.pages)
       })
       .catch((err) => {
-        console.log(
-          "No se encontraron personajes con ese criterio de búsqueda",
-          err
-        )
-        setCharacterList([])
-        setPageCount(0)
+        console.log("No se pudo consultar la API de Rick & Morty", err)
       })
+  }, [characterName, selectedPage])
+
+  const handleChangePage = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setSelectedPage(page)
+  }
+
+  const onChangeHandler = (event: {
+    target: { value: SetStateAction<string> }
+  }) => {
+    setCharacterName(event.target.value)
   }
 
   const characterRows = () =>
@@ -131,6 +107,7 @@ export default function RankingTable() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            backgroundColor: "rgba(196, 196, 196, 0.5)",
           }}
         >
           <Table
@@ -144,21 +121,74 @@ export default function RankingTable() {
                   height: "15px",
                 }}
               >
-                <TableCell align="left">Name</TableCell>
-                <TableCell align="left" sx={{ width: "100px" }}>
+                <TableCell
+                  sx={{
+                    color: "#00DFDD",
+                    fontFamily: "Montserrat",
+                    fontWeight: "400",
+                    fontSize: "18px",
+                    lineHeight: "20px",
+                  }}
+                  align="left"
+                >
+                  Name
+                </TableCell>
+                <TableCell
+                  align="left"
+                  sx={{
+                    color: "#00DFDD",
+                    fontFamily: "Montserrat",
+                    fontWeight: "400",
+                    fontSize: "18px",
+                    lineHeight: "20px",
+                  }}
+                >
                   Status
                 </TableCell>
-                <TableCell align="left" sx={{ width: "100px" }}>
-                  Species
+                <TableCell
+                  align="left"
+                  sx={{
+                    color: "#00DFDD",
+                    fontFamily: "Montserrat",
+                    fontWeight: "400",
+                    fontSize: "18px",
+                    lineHeight: "20px",
+                  }}
+                >
+                  Specie
                 </TableCell>
-                <TableCell align="left" sx={{ width: "100px" }}></TableCell>
+                <TableCell
+                  align="left"
+                  sx={{
+                    color: "#00DFDD",
+                    fontFamily: "Roboto",
+                    fontWeight: "400",
+                    fontSize: "18px",
+                    lineHeight: "20px",
+                    width: "50px",
+                  }}
+                >
+                  ...
+                </TableCell>
+                <TableCell
+                  align="left"
+                  sx={{
+                    color: "#00DFDD",
+                    fontFamily: "Roboto",
+                    fontWeight: "400",
+                    fontSize: "18px",
+                    lineHeight: "20px",
+                    width: "50px",
+                  }}
+                ></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>{characterRows()}</TableBody>
           </Table>
         </TableContainer>
         <Pagination
-          sx={{ marginTop: "35px" }}
+          sx={{ marginTop: "35px", color: "secondary" }}
+          shape="circular"
           onChange={handleChangePage}
           count={pageCount}
           boundaryCount={1}
@@ -171,6 +201,7 @@ export default function RankingTable() {
                 next: KeyboardDoubleArrowRightIcon,
               }}
               {...item}
+              sx={{ color: "white" }}
             />
           )}
         />

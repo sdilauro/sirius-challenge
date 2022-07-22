@@ -7,20 +7,28 @@ import {
   Typography,
   Avatar,
   Button,
-  Box,
 } from "@mui/material"
 import { Container } from "@mui/system"
-import React, { useState } from "react"
+import React from "react"
 import { Character } from "../Interfaces"
+import { CharacterField } from "./CharacterField"
 
 interface Props {
   character: Character
 }
 
+const properties = [
+  { value: "name", title: "Name" },
+  { value: "status", title: "Status" },
+  { value: "species", title: "Species" },
+  { value: "type", title: "Type" },
+  { value: "gender", title: "Gender" },
+]
+
+const places = [{ value: "Origin" }, { value: "Location" }]
+
 export const CharacterRow = ({ character }: Props) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
-
-  const fields = []
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
@@ -37,20 +45,71 @@ export const CharacterRow = ({ character }: Props) => {
     <TableRow
       sx={{
         width: "100%",
+        p: "0",
         height: "15px",
+        backgroundColor: "rgba(10, 34, 45, 0.7)",
+        border: "none",
       }}
     >
       <TableCell align="left">
-        <Typography>{character.name}</Typography>
+        <Typography
+          sx={{
+            color: "#FFFFFF",
+            fontFamily: "Roboto",
+            fontWeight: "400",
+            fontSize: "18px",
+            lineHeight: "20px",
+          }}
+        >
+          {character.name}
+        </Typography>
       </TableCell>
       <TableCell align="left">
-        <Typography>{character.status}</Typography>
+        <Typography
+          sx={{
+            color: "#FFFFFF",
+            fontFamily: "Roboto",
+            fontWeight: "400",
+            fontSize: "18px",
+            lineHeight: "20px",
+            textTransform: "uppercase:first-letter",
+          }}
+        >
+          {character.status.charAt(0).toUpperCase() + character.status.slice(1)}
+        </Typography>
       </TableCell>
       <TableCell align="left">
-        <Typography>{character.species}</Typography>
+        <Typography
+          sx={{
+            color: "#FFFFFF",
+            fontFamily: "Roboto",
+            fontWeight: "400",
+            fontSize: "18px",
+            lineHeight: "20px",
+          }}
+        >
+          {character.species}
+        </Typography>
       </TableCell>
       <TableCell align="left">
-        <IconButton aria-describedby={id} onClick={handleClick}>
+        <Typography
+          sx={{
+            color: "#FFFFFF",
+            fontFamily: "Roboto",
+            fontWeight: "400",
+            fontSize: "18px",
+            lineHeight: "20px",
+          }}
+        >
+          ...
+        </Typography>
+      </TableCell>
+      <TableCell align="left">
+        <IconButton
+          aria-describedby={id}
+          onClick={handleClick}
+          sx={{ color: "#FFFFFF" }}
+        >
           <VisibilityOutlinedIcon />
         </IconButton>
         <Popover
@@ -86,45 +145,15 @@ export const CharacterRow = ({ character }: Props) => {
               src={character.image}
               sx={{ width: 100, height: 100 }}
             />
-            <Box>
-              <Typography
-                sx={{
-                  color: "white",
-                  fontSize: "14px",
-                  fontWeight: "400",
-                  fontStyle: "normal",
-                  lineHeight: "20px",
-                  fontFamily: "Roboto",
-                  marginBottom: "4px",
-                }}
-              >
-                Name
-              </Typography>
-              <Box
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: "8px",
-                  width: "300px",
-                  paddingTop: "12px",
-                  paddingBottom: "12px",
-                  paddingLeft: "16px",
-                  paddingRight: "16px",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "#777777",
-                    fontSize: "14px",
-                    fontWeight: "400",
-                    fontStyle: "normal",
-                    lineHeight: "20px",
-                    fontFamily: "Roboto",
-                  }}
-                >
-                  {character.name}
-                </Typography>
-              </Box>
-            </Box>
+            {properties
+              .map((property) => {
+                if (property.value in character) {
+                  const value = character[property.value as keyof Character]
+                  return CharacterField(property.title, value.toString())
+                }
+                return null
+              })
+              .filter((element) => element !== null)}
 
             <Button
               sx={{
@@ -137,7 +166,7 @@ export const CharacterRow = ({ character }: Props) => {
               size="large"
               variant="outlined"
             >
-              CLOSE
+              Close
             </Button>
           </Container>
         </Popover>

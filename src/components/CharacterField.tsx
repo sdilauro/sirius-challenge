@@ -1,11 +1,11 @@
 import { Typography, Box } from "@mui/material"
-import { Character } from "../Interfaces"
+import { characterProperty } from "../Interfaces"
 
 interface Props {
-  character: Character
+  property: characterProperty
 }
 
-export const CharacterField = ({ character }: Props) => {
+export const CharacterField = ({ property }: Props) => {
   return (
     <Box>
       <Typography
@@ -19,7 +19,7 @@ export const CharacterField = ({ character }: Props) => {
           marginBottom: "4px",
         }}
       >
-        Name
+        {property.key}
       </Typography>
       <Box
         sx={{
@@ -42,7 +42,7 @@ export const CharacterField = ({ character }: Props) => {
             fontFamily: "Roboto",
           }}
         >
-          {character.name}
+          {property.value}
         </Typography>
       </Box>
     </Box>

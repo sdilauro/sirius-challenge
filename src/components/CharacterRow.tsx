@@ -4,7 +4,6 @@ import {
   TableRow,
   IconButton,
   Popover,
-  TextField,
   Typography,
   Avatar,
   Button,
@@ -133,7 +132,7 @@ export const CharacterRow = ({ character }: Props) => {
                 height: "38px",
                 padding: "10px, 20px, 10px, 20px",
               }}
-              onClick={() => {}}
+              onClick={handleClose}
               color="primary"
               size="large"
               variant="outlined"

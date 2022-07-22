@@ -16,3 +16,8 @@ export interface Character {
   episode: string[]
   created: string
 }
+
+export interface characterProperty {
+  key: string
+  value: string
+}

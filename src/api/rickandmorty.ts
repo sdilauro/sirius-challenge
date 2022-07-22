@@ -3,6 +3,13 @@ type Place = {
   link: string
 }
 
+type Info = {
+  count: number
+  pages: number
+  next: string | null
+  prev: string | null
+}
+
 type Character = {
   id: number
   name: string
@@ -17,14 +24,21 @@ type Character = {
   created: string
 }
 
-export const getCharacters = async (n:number) => {
-  const data = await fetch(`https://rickandmortyapi.com/api/character/?page=${n}`)
-  const json = await data.json()
-  console.log(json)
+type Response = {
+  info: Info
+  results: Character[]
+  error?: string
+}
 
-  if (json.results) {
-    return json.results as Character[]
+export const getCharacters = async (page: number, name: string) => {
+  const data = await fetch(
+    `https://rickandmortyapi.com/api/character/?page=${page}&name=${name}`
+  )
+  const json: Response = await data.json()
+
+  if (json.results && json.info) {
+    return json as Response
   } else {
-    throw new Error(json.reason)
+    throw new Error(json.error)
   }
 }

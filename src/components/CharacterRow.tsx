@@ -1,4 +1,3 @@
-import { Done, Edit } from "@mui/icons-material"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
 import {
   TableCell,
@@ -7,6 +6,9 @@ import {
   Popover,
   TextField,
   Typography,
+  Avatar,
+  Button,
+  Box,
 } from "@mui/material"
 import { Container } from "@mui/system"
 import React, { useState } from "react"
@@ -18,24 +20,19 @@ interface Props {
 
 export const CharacterRow = ({ character }: Props) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
-  const [editedTaskName, setEditedTaskName] = useState<string>(character.name)
+
+  const fields = []
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
 
   const handleClose = () => {
     setAnchorEl(null)
-    setEditedTaskName(character.name)
   }
 
   const open = Boolean(anchorEl)
   const id = open ? "simple-popover" : undefined
-
-  const updateEditTaskValue = (e: {
-    target: { value: React.SetStateAction<string> }
-  }) => {
-    setEditedTaskName(e.target.value)
-  }
 
   return (
     <TableRow
@@ -58,7 +55,7 @@ export const CharacterRow = ({ character }: Props) => {
           <VisibilityOutlinedIcon />
         </IconButton>
         <Popover
-          sx={{ p: 20 }}
+          sx={{}}
           id={id}
           open={open}
           anchorEl={anchorEl}
@@ -74,28 +71,75 @@ export const CharacterRow = ({ character }: Props) => {
         >
           <Container
             sx={{
-              marginBottom: "20px",
-              marginTop: "20px",
               display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
               alignItems: "center",
-              width: "100%",
-              color: "tomato",
+              width: "410px",
+              height: "700px",
+              paddingTop: "40px",
+              paddingBottom: "60px",
+              backgroundColor: "#0A222D",
             }}
           >
-            <TextField
-              sx={{ marginTop: "10" }}
-              fullWidth
-              size="small"
-              id="outlined-basic"
-              label="Editar tarea"
-              variant="outlined"
-              value={editedTaskName}
-              onChange={updateEditTaskValue}
-              onKeyPress={() => {}}
+            <Avatar
+              alt={character.name}
+              src={character.image}
+              sx={{ width: 100, height: 100 }}
             />
-            <IconButton onClick={() => {}} color="inherit" size="large">
-              <Done />
-            </IconButton>
+            <Box>
+              <Typography
+                sx={{
+                  color: "white",
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  fontStyle: "normal",
+                  lineHeight: "20px",
+                  fontFamily: "Roboto",
+                  marginBottom: "4px",
+                }}
+              >
+                Name
+              </Typography>
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "8px",
+                  width: "300px",
+                  paddingTop: "12px",
+                  paddingBottom: "12px",
+                  paddingLeft: "16px",
+                  paddingRight: "16px",
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "#777777",
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    fontStyle: "normal",
+                    lineHeight: "20px",
+                    fontFamily: "Roboto",
+                  }}
+                >
+                  {character.name}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Button
+              sx={{
+                width: "87px",
+                height: "38px",
+                padding: "10px, 20px, 10px, 20px",
+              }}
+              onClick={() => {}}
+              color="primary"
+              size="large"
+              variant="outlined"
+            >
+              CLOSE
+            </Button>
           </Container>
         </Popover>
       </TableCell>

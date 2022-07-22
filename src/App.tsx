@@ -1,6 +1,5 @@
-import { Container, TextField, Typography, Box } from "@mui/material"
+import { Container, Typography } from "@mui/material"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import SearchIcon from "@mui/icons-material/Search"
 import "@fontsource/montserrat"
 import "./fonts.css"
 import TableCustom from "./components/CharactersTable"
@@ -17,9 +16,10 @@ function App() {
       <Container
         maxWidth={false}
         sx={{
-          padding: "95px 95px",
+          padding: "95px 0px",
           backgroundColor: "#0A222D",
           width: "100%",
+          margin: "auto",
         }}
       >
         <Typography
@@ -34,24 +34,6 @@ function App() {
         >
           Rick and Morty characters
         </Typography>
-        <Box
-          sx={{
-            width: "447px",
-            paddingTop: "51px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <SearchIcon fontSize="large" htmlColor="#00DFDD"></SearchIcon>
-          <TextField
-            id="standard-basic"
-            label=""
-            variant="standard"
-            placeholder="Search User"
-            color="secondary"
-            fullWidth
-          />
-        </Box>
         <TableCustom />
       </Container>
     </ThemeProvider>

@@ -2,7 +2,6 @@ import { Box, Container, Typography } from "@mui/material"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import "@fontsource/montserrat"
 import "./fonts.css"
-import TableCustom from "./components/CharactersTable"
 import MaterialTable from "./components/MaterialTable"
 import Image from "./components/Img"
 
@@ -50,7 +49,6 @@ function App() {
           </Typography>
           <Image />
         </Box>
-        <TableCustom />
         <MaterialTable />
       </Container>
     </ThemeProvider>

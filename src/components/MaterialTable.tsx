@@ -1,4 +1,5 @@
-import SearchIcon from "@mui/icons-material/Search"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight"
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft"
 import { styled } from "@mui/material/styles"
@@ -12,10 +13,16 @@ import Paper from "@mui/material/Paper"
 import { SetStateAction, useEffect, useState } from "react"
 import api from "../api"
 import { Character } from "../Interfaces"
-import { Box, TextField, Pagination, PaginationItem } from "@mui/material"
-import { CharacterField } from "./CharacterField"
+import {
+  Box,
+  TextField,
+  Pagination,
+  PaginationItem,
+  Typography,
+} from "@mui/material"
 import React from "react"
 import { CharacterDetails } from "./CharacterDetails"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -24,8 +31,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontFamily: "Montserrat",
     fontSize: "20px",
     lineHeight: "20px",
-    width: "20%",
-    margin: "5px",
+    width: "25%",
   },
   [`&.${tableCellClasses.body}`]: {
     fontFamily: "Roboto",
@@ -34,7 +40,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: "white",
     fontStyle: "normal",
     fontWeight: "400",
-    width: "20%",
+
     border: 0,
   },
 }))
@@ -49,13 +55,25 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }))
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: "#00DFDD",
+      main: "#00DFDD",
+      dark: "#00DFDD",
+    },
+    secondary: {
+      main: "#00DFDD",
+    },
+  },
+})
 
 export default function MaterialTable() {
   const [characterList, setCharacterList] = useState<any[]>([])
   const [pageCount, setPageCount] = useState<number>(1)
   const [characterName, setCharacterName] = useState<string>("")
   const [selectedPage, setSelectedPage] = useState<number>(1)
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
+  const [success, setSuccess] = useState<boolean>(true)
 
   useEffect(() => {
     api
@@ -63,9 +81,11 @@ export default function MaterialTable() {
       .then((json) => {
         setCharacterList(json.results)
         setPageCount(json.info.pages)
+        setSuccess(true)
       })
       .catch((err) => {
-        console.log("No se pudo consultar la API de Rick & Morty", err)
+        console.log("Error:", err)
+        setSuccess(false)
       })
   }, [characterName, selectedPage])
 
@@ -82,8 +102,12 @@ export default function MaterialTable() {
     setCharacterName(event.target.value)
   }
 
+  const handleSubmit = (event: any) => {
+    event.preventDefault()
+  }
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Box
         component="form"
         sx={{
@@ -91,6 +115,7 @@ export default function MaterialTable() {
           flexDirection: "column",
           alignItems: "left",
           width: "87.5%",
+          maxWidth: "1315px",
           margin: "auto",
         }}
       >
@@ -102,102 +127,147 @@ export default function MaterialTable() {
           }}
         >
           <Box
+            component="form"
+            noValidate
+            autoComplete="off"
             sx={{
               width: "447px",
               maxWidth: "80%",
               paddingTop: "51px",
               display: "flex",
               alignItems: "center",
+              fontSize: "33px",
+              color: "#00DFDD",
             }}
           >
-            <SearchIcon fontSize="large" htmlColor="#00DFDD"></SearchIcon>
-            <TextField
-              id="standard-basic"
-              label=""
-              onChange={onChangeHandler}
-              value={characterName}
-              variant="standard"
-              placeholder="Search User"
-              color="secondary"
-              fullWidth
-            />
+            <FontAwesomeIcon icon={faMagnifyingGlass} color="inherit" />
+            <form onSubmit={handleSubmit}>
+              <TextField
+                sx={{ marginLeft: "22px", fontStyle: "inherit" }}
+                id="standard-basic"
+                label=""
+                onChange={onChangeHandler}
+                value={characterName}
+                variant="standard"
+                placeholder="Search User"
+                color="primary"
+                fullWidth
+                InputProps={{
+                  style: {
+                    fontFamily: "Montserrat",
+                    color: "#00DFDD",
+                    borderBlockColor: "#00DFDD",
+                  },
+                }}
+                InputLabelProps={{
+                  style: {
+                    fontFamily: "Montserrat",
+                    color: "#00DFDD",
+                    borderBlockColor: "#00DFDD",
+                  },
+                }}
+              />
+            </form>
           </Box>
         </Box>
       </Box>
-      <Box sx={{ width: "100%", margin: "auto" }}>
-        <TableContainer
-          component={Paper}
-          sx={{
-            width: "87.5%",
-            margin: "auto",
-            borderRadius: "8px",
-            padding: "37px",
-            backgroundColor: "rgba(196, 196, 196, 0.5)",
-          }}
-        >
-          <Table
-            sx={{ width: "100%" }}
-            aria-label="customized table"
-            size="small"
-          >
-            <TableHead sx={{ backgroundColor: "transparent" }}>
-              <TableRow>
-                <StyledTableCell align="left">Name</StyledTableCell>
-                <StyledTableCell align="left">Status</StyledTableCell>
-                <StyledTableCell align="left">Specie</StyledTableCell>
-                <StyledTableCell align="center" sx={{ flex: 1 }}>
-                  ...
-                </StyledTableCell>
-                <StyledTableCell align="left"></StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {characterList.map((character: Character) => (
-                <StyledTableRow key={character.id} sx={{ borderRadius: "8px" }}>
-                  <StyledTableCell align="left" component="th" scope="row">
-                    {character.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {character.status.charAt(0).toUpperCase() +
-                      character.status.slice(1)}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {character.species}
-                  </StyledTableCell>
-                  <StyledTableCell sx={{ flex: 1 }} align="center">
-                    ...
-                  </StyledTableCell>
-                  <CharacterDetails character={character} />
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Pagination
-          sx={{
-            color: "secondary",
-            width: "87.5%",
-            margin: "auto",
-            marginTop: "35px",
-          }}
-          shape="circular"
-          onChange={handleChangePage}
-          count={pageCount}
-          boundaryCount={1}
-          siblingCount={0}
-          size="small"
-          renderItem={(item) => (
-            <PaginationItem
-              components={{
-                previous: KeyboardDoubleArrowLeftIcon,
-                next: KeyboardDoubleArrowRightIcon,
+      <Box sx={{ width: "87.5%", margin: "auto", maxWidth: "1315px" }}>
+        {success ? (
+          <>
+            <TableContainer
+              component={Paper}
+              sx={{
+                width: "100%",
+                margin: "auto",
+                borderRadius: "8px",
+                backgroundColor: "rgba(196, 196, 196, 0.5)",
               }}
-              {...item}
-              sx={{ color: "white" }}
+            >
+              <Table
+                sx={{ margin: "37px", width: "auto" }}
+                aria-label="customized table"
+                size="small"
+              >
+                <TableHead
+                  sx={{
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <TableRow>
+                    <StyledTableCell align="left" sx={{ width: "30%" }}>
+                      Name
+                    </StyledTableCell>
+                    <StyledTableCell align="left" sx={{ width: "15%" }}>
+                      Status
+                    </StyledTableCell>
+                    <StyledTableCell align="left" sx={{ width: "15%" }}>
+                      Specie
+                    </StyledTableCell>
+                    <StyledTableCell align="center">...</StyledTableCell>
+                    <StyledTableCell align="left"></StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {characterList.map((character: Character) => (
+                    <StyledTableRow key={character.id}>
+                      <StyledTableCell
+                        align="left"
+                        component="th"
+                        scope="row"
+                        sx={{
+                          borderTopLeftRadius: "8px",
+                          borderBottomLeftRadius: "8px",
+                        }}
+                      >
+                        {character.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {character.status.charAt(0).toUpperCase() +
+                          character.status.slice(1)}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {character.species.charAt(0).toUpperCase() +
+                          character.species.slice(1)}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">...</StyledTableCell>
+                      <CharacterDetails character={character} />
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Pagination
+              sx={{
+                color: "secondary",
+                width: "87.5%",
+                margin: "auto",
+                marginTop: "35px",
+              }}
+              shape="circular"
+              onChange={handleChangePage}
+              count={pageCount}
+              boundaryCount={1}
+              siblingCount={0}
+              size="small"
+              renderItem={(item) => (
+                <PaginationItem
+                  components={{
+                    previous: KeyboardDoubleArrowLeftIcon,
+                    next: KeyboardDoubleArrowRightIcon,
+                  }}
+                  {...item}
+                  sx={{ color: "white" }}
+                />
+              )}
             />
-          )}
-        />
+          </>
+        ) : (
+          <Typography color="#00DFDD" fontFamily={"Montserrat"}>
+            There was an error with the search criteria or communication with
+            the API.
+          </Typography>
+        )}
       </Box>
-    </>
+    </ThemeProvider>
   )
 }

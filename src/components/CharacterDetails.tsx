@@ -34,7 +34,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: "white",
     fontStyle: "normal",
     fontWeight: "400",
-    width: "20%",
     border: 0,
   },
 }))
@@ -54,11 +53,19 @@ export const CharacterDetails = ({ character }: Props) => {
   const id = open ? "simple-popover" : undefined
 
   return (
-    <StyledTableCell align="right">
+    <StyledTableCell
+      align="right"
+      sx={{
+        width: "20px",
+        padding: "1.25px",
+        borderTopRightRadius: "8px",
+        borderBottomRightRadius: "8px",
+      }}
+    >
       <IconButton
         aria-describedby={id}
         onClick={handleClick}
-        sx={{ color: "#FFFFFF" }}
+        sx={{ color: "#FFFFFF", marginRight: "10px" }}
       >
         <VisibilityOutlinedIcon />
       </IconButton>
@@ -191,6 +198,7 @@ export const CharacterDetails = ({ character }: Props) => {
               width: "87px",
               height: "38px",
               padding: "10px, 20px, 10px, 20px",
+              marginTop: "20px",
             }}
             onClick={handleClose}
             color="primary"

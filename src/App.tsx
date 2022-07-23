@@ -21,6 +21,7 @@ function App() {
           backgroundColor: "#0A222D",
           width: "100%",
           margin: "auto",
+          minHeight: "100vh",
         }}
       >
         <Box

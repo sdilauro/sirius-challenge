@@ -50,6 +50,7 @@ function App() {
           </Typography>
           <Image />
         </Box>
+        <TableCustom />
         <MaterialTable />
       </Container>
     </ThemeProvider>

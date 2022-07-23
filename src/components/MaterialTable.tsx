@@ -12,12 +12,7 @@ import Paper from "@mui/material/Paper"
 import { SetStateAction, useEffect, useState } from "react"
 import api from "../api"
 import { Character } from "../Interfaces"
-import {
-  Box,
-  TextField,
-  Pagination,
-  PaginationItem,
-} from "@mui/material"
+import { Box, TextField, Pagination, PaginationItem } from "@mui/material"
 import { CharacterField } from "./CharacterField"
 import React from "react"
 import { CharacterDetails } from "./CharacterDetails"
@@ -30,6 +25,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: "20px",
     lineHeight: "20px",
     width: "20%",
+    margin: "5px",
   },
   [`&.${tableCellClasses.body}`]: {
     fontFamily: "Roboto",
@@ -53,13 +49,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }))
 
-const properties = [
-  { value: "name", title: "Name" },
-  { value: "status", title: "Status" },
-  { value: "species", title: "Species" },
-  { value: "type", title: "Type" },
-  { value: "gender", title: "Gender" },
-]
 
 export default function MaterialTable() {
   const [characterList, setCharacterList] = useState<any[]>([])
@@ -67,17 +56,6 @@ export default function MaterialTable() {
   const [characterName, setCharacterName] = useState<string>("")
   const [selectedPage, setSelectedPage] = useState<number>(1)
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  const open = Boolean(anchorEl)
-  const id = open ? "simple-popover" : undefined
 
   useEffect(() => {
     api

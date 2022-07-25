@@ -17,7 +17,9 @@ function App() {
       <Container
         maxWidth={false}
         sx={{
-          padding: "60px 0px",
+          display: "flex",
+          flexDirection: "column",
+          paddingTop: "60px",
           backgroundColor: "#0A222D",
           width: "100%",
           margin: "auto",
@@ -51,6 +53,30 @@ function App() {
           <Image />
         </Box>
         <MaterialTable />
+        <Box sx={{ flex: 1 }}></Box>
+        <Typography
+          sx={{
+            backgroundColor: "#0A222D",
+            p: "20px",
+            fontSize: ".75rem",
+            fontWeight: "400",
+            lineHeight: "1rem",
+            color: "#00DFDD",
+            width: "90%",
+            margin: "auto",
+            textAlign: "center",
+            height: "2rem",
+            fontFamily: "Montserrat",
+          }}
+        >
+          site designed by{" "}
+          <a
+            style={{ textDecoration: "none", color: "magenta" }}
+            href="https://sdilauro.com"
+          >
+            sdilauro
+          </a>
+        </Typography>
       </Container>
     </ThemeProvider>
   )

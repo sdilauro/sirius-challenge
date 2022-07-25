@@ -20,6 +20,7 @@ import {
   PaginationItem,
   Typography,
   TableSortLabel,
+  CircularProgress,
 } from "@mui/material"
 import React from "react"
 import { CharacterDetails } from "./CharacterDetails"
@@ -77,8 +78,10 @@ export default function MaterialTable() {
   const [characterName, setCharacterName] = useState<string>("")
   const [selectedPage, setSelectedPage] = useState<number>(1)
   const [success, setSuccess] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
+    setLoading(true)
     if (characterName === "") {
       api
         .getCharacters(selectedPage, characterName)
@@ -104,6 +107,7 @@ export default function MaterialTable() {
           setSuccess(false)
         })
     }
+    setLoading(false)
   }, [characterName, selectedPage])
 
   const handleChangePage = (
@@ -187,107 +191,123 @@ export default function MaterialTable() {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ width: "87.5%", margin: "auto", maxWidth: "1315px" }}>
-        {success ? (
-          <>
-            <TableContainer
-              component={Paper}
-              sx={{
-                width: "100%",
-                margin: "auto",
-                borderRadius: "8px",
-                backgroundColor: "rgba(196, 196, 196, 0.5)",
-              }}
-            >
-              <Table
-                sx={{ margin: "37px", width: "auto" }}
-                aria-label="customized table"
-                size="small"
+      {loading ? (
+        <Typography
+          component={"div"}
+          color="#00DFDD"
+          fontFamily={"Montserrat"}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress />
+          Loading...
+        </Typography>
+      ) : (
+        <Box sx={{ width: "87.5%", margin: "auto", maxWidth: "1315px" }}>
+          {success ? (
+            <>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  width: "100%",
+                  margin: "auto",
+                  borderRadius: "8px",
+                  backgroundColor: "rgba(196, 196, 196, 0.5)",
+                }}
               >
-                <TableHead
-                  sx={{
-                    backgroundColor: "transparent",
-                  }}
+                <Table
+                  sx={{ margin: "37px", width: "auto" }}
+                  aria-label="customized table"
+                  size="small"
                 >
-                  <TableRow>
-                    <StyledTableCell align="left" sx={{ width: "30%" }}>
-                      Name
-                    </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "15%" }}>
-                      Status
-                    </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "15%" }}>
-                      <TableSortLabel active={false} direction="asc">
-                        Specie
-                      </TableSortLabel>
-                    </StyledTableCell>
-                    <StyledTableCell align="left"></StyledTableCell>
-                    <StyledTableCell align="left"></StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {characterList.map((character: Character) => (
-                    <StyledTableRow key={character.id}>
-                      <StyledTableCell
-                        align="left"
-                        component="th"
-                        scope="row"
-                        sx={{
-                          borderTopLeftRadius: "8px",
-                          borderBottomLeftRadius: "8px",
-                        }}
-                      >
-                        {character.name}
+                  <TableHead
+                    sx={{
+                      backgroundColor: "transparent",
+                    }}
+                  >
+                    <TableRow>
+                      <StyledTableCell align="left" sx={{ width: "30%" }}>
+                        Name
                       </StyledTableCell>
-                      <StyledTableCell align="left">
-                        {character.status.charAt(0).toUpperCase() +
-                          character.status.slice(1)}
+                      <StyledTableCell align="left" sx={{ width: "15%" }}>
+                        Status
                       </StyledTableCell>
-                      <StyledTableCell align="left">
-                        {character.species.charAt(0).toUpperCase() +
-                          character.species.slice(1)}
+                      <StyledTableCell align="left" sx={{ width: "15%" }}>
+                        <TableSortLabel active={false} direction="asc">
+                          Specie
+                        </TableSortLabel>
                       </StyledTableCell>
-                      <StyledTableCell align="left">
-                        <CharacterEpisodes character={character} />
-                      </StyledTableCell>
-                      <CharacterDetails character={character} />
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <Pagination
-              sx={{
-                color: "secondary",
-                width: "87.5%",
-                margin: "auto",
-                marginTop: "35px",
-              }}
-              shape="circular"
-              onChange={handleChangePage}
-              count={pageCount}
-              boundaryCount={1}
-              siblingCount={0}
-              size="small"
-              renderItem={(item) => (
-                <PaginationItem
-                  components={{
-                    previous: KeyboardDoubleArrowLeftIcon,
-                    next: KeyboardDoubleArrowRightIcon,
-                  }}
-                  {...item}
-                  sx={{ color: "white" }}
-                />
-              )}
-            />
-          </>
-        ) : (
-          <Typography color="#00DFDD" fontFamily={"Montserrat"}>
-            There was an error with the search criteria or communication with
-            the API.
-          </Typography>
-        )}
-      </Box>
+                      <StyledTableCell align="left"></StyledTableCell>
+                      <StyledTableCell align="left"></StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {characterList.map((character: Character) => (
+                      <StyledTableRow key={character.id}>
+                        <StyledTableCell
+                          align="left"
+                          component="th"
+                          scope="row"
+                          sx={{
+                            borderTopLeftRadius: "8px",
+                            borderBottomLeftRadius: "8px",
+                          }}
+                        >
+                          {character.name}
+                        </StyledTableCell>
+                        <StyledTableCell align="left">
+                          {character.status.charAt(0).toUpperCase() +
+                            character.status.slice(1)}
+                        </StyledTableCell>
+                        <StyledTableCell align="left">
+                          {character.species.charAt(0).toUpperCase() +
+                            character.species.slice(1)}
+                        </StyledTableCell>
+                        <StyledTableCell align="left">
+                          <CharacterEpisodes character={character} />
+                        </StyledTableCell>
+                        <CharacterDetails character={character} />
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Pagination
+                sx={{
+                  color: "secondary",
+                  width: "87.5%",
+                  margin: "auto",
+                  marginTop: "35px",
+                }}
+                shape="circular"
+                onChange={handleChangePage}
+                count={pageCount}
+                boundaryCount={1}
+                siblingCount={0}
+                size="small"
+                renderItem={(item) => (
+                  <PaginationItem
+                    components={{
+                      previous: KeyboardDoubleArrowLeftIcon,
+                      next: KeyboardDoubleArrowRightIcon,
+                    }}
+                    {...item}
+                    sx={{ color: "white" }}
+                  />
+                )}
+              />
+            </>
+          ) : (
+            <Typography color="#00DFDD" fontFamily={"Montserrat"}>
+              There was an error with the search criteria or communication with
+              the API.
+            </Typography>
+          )}
+        </Box>
+      )}
     </ThemeProvider>
   )
 }

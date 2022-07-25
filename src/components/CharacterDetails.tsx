@@ -3,7 +3,6 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
 import {
   IconButton,
-  Popover,
   Typography,
   Avatar,
   Button,
@@ -15,6 +14,7 @@ import { Container } from "@mui/system"
 import React from "react"
 import { Character } from "../Interfaces"
 import { CharacterField } from "./CharacterField"
+import preload from "./../preload.jpeg"
 
 interface Props {
   character: Character
@@ -90,7 +90,12 @@ export const CharacterDetails = ({ character }: Props) => {
             <Avatar
               alt={character.name}
               src={character.image}
-              sx={{ width: 100, height: 100 }}
+              sx={{
+                width: 100,
+                height: 100,
+                backgroundImage: `url(${preload})`,
+                backgroundSize: "100px",
+              }}
             />
             {properties
               .map((property, index) => {

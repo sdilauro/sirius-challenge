@@ -19,10 +19,12 @@ import {
   Pagination,
   PaginationItem,
   Typography,
+  TableSortLabel,
 } from "@mui/material"
 import React from "react"
 import { CharacterDetails } from "./CharacterDetails"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { CharacterEpisodes } from "./CharacterEpisodes"
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,8 +33,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontFamily: "Montserrat",
     fontSize: "20px",
     lineHeight: "20px",
-    width: "25%",
   },
+
   [`&.${tableCellClasses.body}`]: {
     fontFamily: "Roboto",
     fontSize: "18px",
@@ -76,17 +78,31 @@ export default function MaterialTable() {
   const [success, setSuccess] = useState<boolean>(true)
 
   useEffect(() => {
-    api
-      .getCharacters(selectedPage, characterName)
-      .then((json) => {
-        setCharacterList(json.results)
-        setPageCount(json.info.pages)
-        setSuccess(true)
-      })
-      .catch((err) => {
-        console.log("Error:", err)
-        setSuccess(false)
-      })
+    if (characterName == "") {
+      api
+        .getCharacters(selectedPage, characterName)
+        .then((json) => {
+          setCharacterList(json.results)
+          setPageCount(json.info.pages)
+          setSuccess(true)
+        })
+        .catch((err) => {
+          console.log("Error:", err)
+          setSuccess(false)
+        })
+    } else {
+      api
+        .getCharacters(1, characterName)
+        .then((json) => {
+          setCharacterList(json.results)
+          setPageCount(json.info.pages)
+          setSuccess(true)
+        })
+        .catch((err) => {
+          console.log("Error:", err)
+          setSuccess(false)
+        })
+    }
   }, [characterName, selectedPage])
 
   const handleChangePage = (
@@ -201,9 +217,11 @@ export default function MaterialTable() {
                       Status
                     </StyledTableCell>
                     <StyledTableCell align="left" sx={{ width: "15%" }}>
-                      Specie
+                      <TableSortLabel active={false} direction="asc">
+                        Specie
+                      </TableSortLabel>
                     </StyledTableCell>
-                    <StyledTableCell align="center">...</StyledTableCell>
+                    <StyledTableCell align="left">Episodes</StyledTableCell>
                     <StyledTableCell align="left"></StyledTableCell>
                   </TableRow>
                 </TableHead>
@@ -229,7 +247,9 @@ export default function MaterialTable() {
                         {character.species.charAt(0).toUpperCase() +
                           character.species.slice(1)}
                       </StyledTableCell>
-                      <StyledTableCell align="center">...</StyledTableCell>
+                      <StyledTableCell align="left">
+                        <CharacterEpisodes character={character} />
+                      </StyledTableCell>
                       <CharacterDetails character={character} />
                     </StyledTableRow>
                   ))}

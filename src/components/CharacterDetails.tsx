@@ -70,7 +70,7 @@ export const CharacterDetails = ({ character }: Props) => {
         <VisibilityOutlinedIcon />
       </IconButton>
       <Popover
-        sx={{}}
+        sx={{ maxWidth: "100%" }}
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -91,6 +91,7 @@ export const CharacterDetails = ({ character }: Props) => {
             justifyContent: "space-between",
             alignItems: "center",
             width: "410px",
+            maxWidth: "100%",
             height: "auto",
             paddingTop: "40px",
             paddingBottom: "60px",
@@ -130,6 +131,7 @@ export const CharacterDetails = ({ character }: Props) => {
                 backgroundColor: "white",
                 borderRadius: "8px",
                 width: "268px",
+                maxWidth: "95%",
                 paddingTop: "12px",
                 paddingBottom: "12px",
                 paddingLeft: "16px",
@@ -195,10 +197,19 @@ export const CharacterDetails = ({ character }: Props) => {
           </Box>
           <Button
             sx={{
+              borderStyle: "solid",
+              borderWidth: "2px",
               width: "87px",
               height: "38px",
               padding: "10px, 20px, 10px, 20px",
               marginTop: "20px",
+              textTransform: "none",
+              fontFamily: "Montserrat",
+              fontSize: "14px",
+              lineHeight: "18px",
+              color: "white",
+              fontStyle: "normal",
+              fontWeight: "400",
             }}
             onClick={handleClose}
             color="primary"

@@ -1,5 +1,5 @@
-import { getCharacters } from "./rickandmorty"
+import { getCharacters, getEpisodes } from "./rickandmorty"
 
-const api = {getCharacters}
+const api = {getCharacters, getEpisodes}
 
 export default api

@@ -1,3 +1,5 @@
+import { Episode } from "../Interfaces"
+
 type Place = {
   name: string
   link: string
@@ -40,5 +42,18 @@ export const getCharacters = async (page: number, name: string) => {
     return json as Response
   } else {
     throw new Error(json.error)
+  }
+}
+
+export const getEpisodes = async (episodes: string) => {
+  const data = await fetch(
+    `https://rickandmortyapi.com/api/episode/${episodes}`
+  )
+  const json: Array<Episode> = await data.json()
+
+  if (json.length > 0) {
+    return json as Array<Episode>
+  } else {
+    throw new Error("error")
   }
 }

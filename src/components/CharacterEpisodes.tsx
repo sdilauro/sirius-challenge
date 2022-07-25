@@ -19,6 +19,7 @@ import { Container } from "@mui/system"
 import React, { useEffect, useState } from "react"
 import { Episode, Character } from "../Interfaces"
 import api from "../api"
+import preload from "./../preload.jpeg"
 
 interface Props {
   character: Character
@@ -168,7 +169,13 @@ export const CharacterEpisodes = ({ character }: Props) => {
                       <Avatar
                         alt=""
                         src={character.image}
-                        sx={{ width: 100, height: 100, marginRight: "15px" }}
+                        sx={{
+                          width: 100,
+                          height: 100,
+                          marginRight: "15px",
+                          backgroundImage: `url(${preload})`,
+                          backgroundSize: "100px",
+                        }}
                       />
                     </Typography>
 

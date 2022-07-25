@@ -93,7 +93,7 @@ export default function MaterialTable() {
         })
     } else {
       api
-        .getCharacters(1, characterName)
+        .getCharacters(selectedPage, characterName)
         .then((json) => {
           setCharacterList(json.results)
           setPageCount(json.info.pages)
@@ -117,6 +117,7 @@ export default function MaterialTable() {
     target: { value: SetStateAction<string> }
   }) => {
     setCharacterName(event.target.value)
+    setSelectedPage(1)
   }
 
   const handleSubmit = (event: any) => {

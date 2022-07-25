@@ -51,7 +51,7 @@ export const getEpisodes = async (episodes: string) => {
   )
   const json: Array<Episode> = await data.json()
 
-  if (json.length > 0) {
+  if (json.length >= 0) {
     return json as Array<Episode>
   } else {
     throw new Error("error")

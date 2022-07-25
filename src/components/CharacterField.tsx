@@ -1,8 +1,8 @@
 import { Typography, Box } from "@mui/material"
 
-export const CharacterField = (title: string, value: string) => {
+export const CharacterField = (title: string, value: string, key: string) => {
   return (
-    <Box sx={{ marginTop: "10px", marginBottom: "10px" }}>
+    <Box key={key} sx={{ marginTop: "10px", marginBottom: "10px" }}>
       <Typography
         sx={{
           color: "white",

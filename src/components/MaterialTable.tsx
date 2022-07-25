@@ -33,6 +33,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontFamily: "Montserrat",
     fontSize: "20px",
     lineHeight: "20px",
+    width: "100%",
   },
 
   [`&.${tableCellClasses.body}`]: {
@@ -78,7 +79,7 @@ export default function MaterialTable() {
   const [success, setSuccess] = useState<boolean>(true)
 
   useEffect(() => {
-    if (characterName == "") {
+    if (characterName === "") {
       api
         .getCharacters(selectedPage, characterName)
         .then((json) => {
@@ -157,33 +158,31 @@ export default function MaterialTable() {
             }}
           >
             <FontAwesomeIcon icon={faMagnifyingGlass} color="inherit" />
-            <form onSubmit={handleSubmit}>
-              <TextField
-                sx={{ marginLeft: "22px", fontStyle: "inherit" }}
-                id="standard-basic"
-                label=""
-                onChange={onChangeHandler}
-                value={characterName}
-                variant="standard"
-                placeholder="Search User"
-                color="primary"
-                fullWidth
-                InputProps={{
-                  style: {
-                    fontFamily: "Montserrat",
-                    color: "#00DFDD",
-                    borderBlockColor: "#00DFDD",
-                  },
-                }}
-                InputLabelProps={{
-                  style: {
-                    fontFamily: "Montserrat",
-                    color: "#00DFDD",
-                    borderBlockColor: "#00DFDD",
-                  },
-                }}
-              />
-            </form>
+            <TextField
+              sx={{ marginLeft: "22px", fontStyle: "inherit" }}
+              id="standard-basic"
+              label=""
+              onChange={onChangeHandler}
+              value={characterName}
+              variant="standard"
+              placeholder="Search User"
+              color="primary"
+              fullWidth
+              InputProps={{
+                style: {
+                  fontFamily: "Montserrat",
+                  color: "#00DFDD",
+                  borderBlockColor: "#00DFDD",
+                },
+              }}
+              InputLabelProps={{
+                style: {
+                  fontFamily: "Montserrat",
+                  color: "#00DFDD",
+                  borderBlockColor: "#00DFDD",
+                },
+              }}
+            />
           </Box>
         </Box>
       </Box>
@@ -221,7 +220,7 @@ export default function MaterialTable() {
                         Specie
                       </TableSortLabel>
                     </StyledTableCell>
-                    <StyledTableCell align="left">Episodes</StyledTableCell>
+                    <StyledTableCell align="left"></StyledTableCell>
                     <StyledTableCell align="left"></StyledTableCell>
                   </TableRow>
                 </TableHead>

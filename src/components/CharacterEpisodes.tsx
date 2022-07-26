@@ -12,14 +12,14 @@ import {
   Avatar,
   Dialog,
   DialogContent,
+  useMediaQuery,
 } from "@mui/material"
 import { Container } from "@mui/system"
 import React, { useEffect, useState } from "react"
 import { Episode, Character } from "../Interfaces"
 import api from "../api"
 import preload from "./../preload.jpeg"
-import { useWindowSize } from "../hooks/useWindowSize"
-import { StyledTableCell, StyledTableRow } from "../utils/config"
+import { maxWidthTable, StyledTableCell, StyledTableRow } from "../utils/config"
 
 interface Props {
   character: Character
@@ -32,9 +32,7 @@ export const CharacterEpisodes = ({ character }: Props) => {
   const [success, setSuccess] = useState<boolean>(true)
   const [episodesLoaded, setEpisodesLoaded] = useState<boolean>(false)
 
-  const windowSize = useWindowSize()
-
-
+  const tableMediaQuery = useMediaQuery(`(min-width:${maxWidthTable}px)`)
 
   useEffect(() => {
     if (episodesLoaded === false) {
@@ -83,23 +81,52 @@ export const CharacterEpisodes = ({ character }: Props) => {
         borderBottomRightRadius: "8px",
       }}
     >
-      <Button
-        onClick={handleClick}
-        sx={{
-          textTransform: "none",
-          fontFamily: "Roboto",
-          fontSize: "18px",
-          lineHeight: "20px",
-          color: "white",
-          fontStyle: "normal",
-          fontWeight: "400",
-          textAlign: "left",
-        }}
-      >
-        Episodes
-      </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth="md" scroll="body">
-        <DialogContent sx={{ p: 0 }}>
+      {" "}
+      {tableMediaQuery ? (
+        <Button
+          onClick={handleClick}
+          sx={{
+            textTransform: "none",
+            fontFamily: "Roboto",
+            fontSize: "18px",
+            lineHeight: "20px",
+            color: "white",
+            fontStyle: "normal",
+            fontWeight: "400",
+            textAlign: "left",
+          }}
+        >
+          Episodes
+        </Button>
+      ) : (
+        <Button
+          sx={{
+            borderStyle: "solid",
+            borderWidth: "2px",
+            width: "87px",
+            height: "38px",
+            padding: "10px, 20px, 10px, 20px",
+            marginTop: "20px",
+            textTransform: "none",
+            fontFamily: "Montserrat",
+            fontSize: "14px",
+            lineHeight: "18px",
+            color: "white",
+            fontStyle: "normal",
+            fontWeight: "400",
+          }}
+          onClick={handleClick}
+          color="primary"
+          size="large"
+          variant="outlined"
+        >
+          Episodes
+        </Button>
+      )}
+      <Dialog open={open} onClose={handleClose} maxWidth="lg" scroll="body">
+        <DialogContent
+          sx={{ maxHeight: tableMediaQuery ? "auto" : "100vh", p: 0 }}
+        >
           <Container
             sx={{
               display: "flex",
@@ -114,138 +141,161 @@ export const CharacterEpisodes = ({ character }: Props) => {
               backgroundColor: "#0A222D",
             }}
           >
-            
-              <Box sx={{ width: "90%", margin: "auto", maxWidth: "1315px" }}>
-                {success ? (
-                  <>
-                    <Typography
-                      component={"div"}
-                      color="#00DFDD"
-                      fontFamily={"Montserrat"}
-                      sx={{
-                        fontSize: "25px",
-                        lineHeight: "27px",
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "end",
-                        marginBottom: "15px",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      {character.name} appearances
-                      <Avatar
-                        alt=""
-                        src={character.image}
-                        sx={{
-                          width: 100,
-                          height: 100,
-                          marginRight: "15px",
-                          backgroundImage: `url(${preload})`,
-                          backgroundSize: "100px",
-                        }}
-                      />
-                    </Typography>
-
-                    <TableContainer
-                      component={Paper}
-                      sx={{
-                        paddingTop: "37px",
-                        paddingBottom: "37px",
-                        width: "100%",
-                        margin: "auto",
-                        maxHeight: "33vh",
-                        borderRadius: "8px",
-                        backgroundColor: "rgba(196, 196, 196, 0.5)",
-                      }}
-                    >
-                      <Table
-                        sx={{
-                          width: "90%",
-                          maxWidth: "90%",
-                          margin: "auto",
-                        }}
-                        aria-label="customized table"
-                        size="small"
-                      >
-                        <TableHead
-                          sx={{
-                            backgroundColor: "transparent",
-                          }}
-                        >
-                          <TableRow>
-                            <StyledTableCell
-                              component="th"
-                              scope="row"
-                              align="left"
-                            >
-                              Episode name
-                            </StyledTableCell>
-                            <StyledTableCell
-                              align="left"
-                              sx={{ width: "100px" }}
-                            >
-                              Code
-                            </StyledTableCell>
-                            <StyledTableCell align="left">
-                              Air Date
-                            </StyledTableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {episodesList.map((episode: Episode) => (
-                            <StyledTableRow key={episode.id}>
-                              <StyledTableCell
-                                align="left"
-                                component="th"
-                                scope="row"
-                                sx={{
-                                  borderTopLeftRadius: "8px",
-                                  borderBottomLeftRadius: "8px",
-                                }}
-                              >
-                                {episode.name}
-                              </StyledTableCell>
-                              <StyledTableCell
-                                align="left"
-                                component="th"
-                                scope="row"
-                              >
-                                {episode.episode}
-                              </StyledTableCell>
-                              <StyledTableCell
-                                align="left"
-                                component="th"
-                                scope="row"
-                                sx={{
-                                  borderTopRightRadius: "8px",
-                                  borderBottomRightRadius: "8px",
-                                }}
-                              >
-                                {episode.air_date}
-                              </StyledTableCell>
-                            </StyledTableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </>
-                ) : (
+            <Box sx={{ width: "90%", margin: "auto", maxWidth: "1315px" }}>
+              {success ? (
+                <>
                   <Typography
                     component={"div"}
                     color="#00DFDD"
                     fontFamily={"Montserrat"}
                     sx={{
+                      fontSize: "25px",
+                      lineHeight: "27px",
                       display: "flex",
                       flexDirection: "row",
-                      alignItems: "center",
+                      alignItems: "end",
+                      marginBottom: "15px",
+                      justifyContent: "space-between",
                     }}
                   >
-                    <CircularProgress />
-                    Loading...
+                    {character.name} appearances
+                    <Avatar
+                      alt=""
+                      src={character.image}
+                      sx={{
+                        width: tableMediaQuery ? 100 : 75,
+                        height: "auto",
+                        marginRight: "15px",
+                        backgroundImage: `url(${preload})`,
+                        backgroundSize: "100px",
+                      }}
+                    />
                   </Typography>
-                )}
-              </Box>
-            
+
+                  <TableContainer
+                    component={Paper}
+                    sx={{
+                      paddingTop: "37px",
+                      paddingBottom: "37px",
+                      width: "100%",
+                      margin: "auto",
+                      maxHeight: tableMediaQuery ? "33vh" : "auto",
+                      flex: tableMediaQuery ? "none" : "1",
+                      borderRadius: "8px",
+                      backgroundColor: "rgba(196, 196, 196, 0.5)",
+                    }}
+                  >
+                    <Table
+                      sx={{
+                        width: "90%",
+                        maxWidth: "90%",
+                        margin: "auto",
+                      }}
+                      aria-label="customized table"
+                      size="small"
+                    >
+                      <TableHead
+                        sx={{
+                          backgroundColor: "transparent",
+                        }}
+                      >
+                        <TableRow>
+                          <StyledTableCell
+                            component="th"
+                            scope="row"
+                            align="left"
+                            sx={{
+                              width: "60%",
+                              fontSize: tableMediaQuery ? "20px" : "12px",
+                              lineHeight: tableMediaQuery ? "22px" : "14px",
+                            }}
+                          >
+                            Episode name
+                          </StyledTableCell>
+                          <StyledTableCell
+                            align="left"
+                            sx={{
+                              width: tableMediaQuery ? "100px" : "50px",
+                              fontSize: tableMediaQuery ? "20px" : "12px",
+                              lineHeight: tableMediaQuery ? "22px" : "14px",
+                            }}
+                          >
+                            Code
+                          </StyledTableCell>
+                          <StyledTableCell
+                            align="left"
+                            sx={{
+                              fontSize: tableMediaQuery ? "20px" : "12px",
+                              lineHeight: tableMediaQuery ? "22px" : "14px",
+                            }}
+                          >
+                            Air Date
+                          </StyledTableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {episodesList.map((episode: Episode) => (
+                          <StyledTableRow key={episode.id}>
+                            <StyledTableCell
+                              align="left"
+                              component="th"
+                              scope="row"
+                              sx={{
+                                borderTopLeftRadius: "8px",
+                                borderBottomLeftRadius: "8px",
+                                fontSize: tableMediaQuery ? "18px" : "10px",
+                                lineHeight: tableMediaQuery ? "20px" : "12px",
+                              }}
+                            >
+                              {episode.name}
+                            </StyledTableCell>
+                            <StyledTableCell
+                              align="left"
+                              component="th"
+                              scope="row"
+                              sx={{
+                                fontSize: tableMediaQuery ? "18px" : "10px",
+                                lineHeight: tableMediaQuery ? "20px" : "12px",
+                              }}
+                            >
+                              {episode.episode}
+                            </StyledTableCell>
+                            <StyledTableCell
+                              align="left"
+                              component="th"
+                              scope="row"
+                              sx={{
+                                borderTopRightRadius: "8px",
+                                borderBottomRightRadius: "8px",
+                                fontSize: tableMediaQuery ? "18px" : "10px",
+                                lineHeight: tableMediaQuery ? "20px" : "12px",
+                              }}
+                            >
+                              {episode.air_date}
+                            </StyledTableCell>
+                          </StyledTableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </>
+              ) : (
+                <Typography
+                  component={"div"}
+                  color="#00DFDD"
+                  fontFamily={"Montserrat"}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <CircularProgress />
+                  Loading...
+                </Typography>
+              )}
+            </Box>
+            <Box sx={{ display: "flex", flexGrow: 1 }}></Box>
             <Button
               sx={{
                 borderStyle: "solid",

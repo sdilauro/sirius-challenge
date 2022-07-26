@@ -19,18 +19,13 @@ import {
   Typography,
   TableSortLabel,
   CircularProgress,
-  PaginationItemClasses,
-  SxProps,
-  Theme,
-  PaginationProps,
+  useMediaQuery,
 } from "@mui/material"
 import React from "react"
 import { CharacterDetails } from "./CharacterDetails"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { CharacterEpisodes } from "./CharacterEpisodes"
 import { visuallyHidden } from "@mui/utils"
-import { useWindowSize } from "../hooks/useWindowSize"
-import { CommonProps } from "@mui/material/OverridableComponent"
 
 type Order = "asc" | "desc" | undefined
 
@@ -135,7 +130,7 @@ export default function MaterialTable() {
     characterList.sort(name)
   }
 
-  const windowSize = useWindowSize()
+  const tableMediaQuery = useMediaQuery(`(min-width:${maxWidthTable}px)`)
 
   return (
     <>
@@ -240,7 +235,12 @@ export default function MaterialTable() {
                     <TableRow>
                       <StyledTableCell
                         align="left"
-                        sx={{ minWidth: "55%", width: "55%" }}
+                        sx={{
+                          minWidth: "55%",
+                          width: "55%",
+                          fontSize: "20px",
+                          lineHeight: "22px",
+                        }}
                       >
                         Name
                       </StyledTableCell>
@@ -248,11 +248,9 @@ export default function MaterialTable() {
                         align="left"
                         sx={{
                           width: "10%",
-                          display:
-                            windowSize.width === undefined ||
-                            windowSize.width <= maxWidthTable
-                              ? "none"
-                              : "inblock",
+                          display: tableMediaQuery ? "inblock" : "none",
+                          fontSize: tableMediaQuery ? "20px" : "12px",
+                          lineHeight: tableMediaQuery ? "22px" : "14px",
                         }}
                       >
                         Status
@@ -261,11 +259,9 @@ export default function MaterialTable() {
                         align="left"
                         sx={{
                           width: "14%",
-                          display:
-                            windowSize.width === undefined ||
-                            windowSize.width <= maxWidthTable
-                              ? "none"
-                              : "inblock",
+                          display: tableMediaQuery ? "inblock" : "none",
+                          fontSize: tableMediaQuery ? "20px" : "12px",
+                          lineHeight: tableMediaQuery ? "22px" : "14px",
                         }}
                       >
                         <TableSortLabel
@@ -285,11 +281,7 @@ export default function MaterialTable() {
                         align="left"
                         sx={{
                           width: "10%",
-                          display:
-                            windowSize.width === undefined ||
-                            windowSize.width <= maxWidthTable
-                              ? "none"
-                              : "inblock",
+                          display: tableMediaQuery ? "inblock" : "none",
                         }}
                       ></StyledTableCell>
                       <StyledTableCell
@@ -307,6 +299,8 @@ export default function MaterialTable() {
                           sx={{
                             borderTopLeftRadius: "8px",
                             borderBottomLeftRadius: "8px",
+                            fontSize: "18px",
+                            lineHeight: "20px",
                           }}
                         >
                           {character.name}
@@ -314,11 +308,9 @@ export default function MaterialTable() {
                         <StyledTableCell
                           align="left"
                           sx={{
-                            display:
-                              windowSize.width === undefined ||
-                              windowSize.width <= maxWidthTable
-                                ? "none"
-                                : "inblock",
+                            display: tableMediaQuery ? "inblock" : "none",
+                            fontSize: tableMediaQuery ? "18px" : "10px",
+                            lineHeight: tableMediaQuery ? "20px" : "12px",
                           }}
                         >
                           {character.status.charAt(0).toUpperCase() +
@@ -327,11 +319,9 @@ export default function MaterialTable() {
                         <StyledTableCell
                           align="left"
                           sx={{
-                            display:
-                              windowSize.width === undefined ||
-                              windowSize.width <= maxWidthTable
-                                ? "none"
-                                : "inblock",
+                            display: tableMediaQuery ? "inblock" : "none",
+                            fontSize: tableMediaQuery ? "18px" : "10px",
+                            lineHeight: tableMediaQuery ? "20px" : "12px",
                           }}
                         >
                           {character.species.charAt(0).toUpperCase() +
@@ -340,11 +330,9 @@ export default function MaterialTable() {
                         <StyledTableCell
                           align="left"
                           sx={{
-                            display:
-                              windowSize.width === undefined ||
-                              windowSize.width <= maxWidthTable
-                                ? "none"
-                                : "inblock",
+                            display: tableMediaQuery ? "inblock" : "none",
+                            fontSize: tableMediaQuery ? "18px" : "10px",
+                            lineHeight: tableMediaQuery ? "20px" : "12px",
                           }}
                         >
                           <CharacterEpisodes character={character} />

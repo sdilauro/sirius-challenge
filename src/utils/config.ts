@@ -1,4 +1,4 @@
-import { Pagination, paginationClasses, TableRow } from "@mui/material"
+import { TableRow } from "@mui/material"
 import TableCell, { tableCellClasses } from "@mui/material/TableCell"
 import { createTheme, styled } from "@mui/material/styles"
 
@@ -6,7 +6,6 @@ export const maxWidthTitle = 850
 export const maxWidthTable = 770
 
 export const theme = createTheme({
-
   palette: {
     primary: {
       light: "#00DFDD",
@@ -24,14 +23,12 @@ export const StyledTableCell = styled(TableCell)(({}) => ({
     backgroundColor: "transparent",
     color: "#00DFDD",
     fontFamily: "Montserrat",
-    fontSize: "20px",
-    lineHeight: "22px",
+
   },
 
   [`&.${tableCellClasses.body}`]: {
     fontFamily: "Roboto",
-    fontSize: "18px",
-    lineHeight: "20px",
+  
     color: "white",
     fontStyle: "normal",
     fontWeight: "400",
@@ -48,4 +45,3 @@ export const StyledTableRow = styled(TableRow)(({}) => ({
     border: 0,
   },
 }))
-

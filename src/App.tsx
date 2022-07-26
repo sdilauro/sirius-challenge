@@ -1,14 +1,13 @@
-import { Box, Container, Typography } from "@mui/material"
+import { Box, Container, Typography, useMediaQuery } from "@mui/material"
 import { ThemeProvider } from "@mui/material/styles"
 import "@fontsource/montserrat"
 import "./fonts.css"
 import MaterialTable from "./components/MaterialTable"
 import Image from "./components/Img"
 import { theme, maxWidthTitle } from "./utils/config"
-import { useWindowSize } from "./hooks/useWindowSize"
 
 function App() {
-  const windowSize = useWindowSize()
+  const titleMediaQuery = useMediaQuery(`(min-width:${maxWidthTitle}px)`)
   return (
     <ThemeProvider theme={theme}>
       <Container
@@ -34,13 +33,9 @@ function App() {
         >
           <Typography
             sx={{
-              fontSize:
-                windowSize.width === undefined ||
-                windowSize.width >= maxWidthTitle
-                  ? "40px"
-                  : "18px",
+              fontSize: titleMediaQuery ? "40px" : "25px",
               fontWeight: "400",
-              lineHeight: "20px",
+              lineHeight: titleMediaQuery ? "40px" : "27px",
               color: "#00DFDD",
               width: "100%",
               textAlign: "center",

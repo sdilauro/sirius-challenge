@@ -7,6 +7,7 @@ import {
   Box,
   Dialog,
   DialogContent,
+  useMediaQuery,
 } from "@mui/material"
 import { Container } from "@mui/system"
 import { Character } from "../Interfaces"
@@ -14,7 +15,6 @@ import { CharacterField } from "./CharacterField"
 import preload from "./../preload.jpeg"
 import { maxWidthTable, StyledTableCell } from "../utils/config"
 import { useState } from "react"
-import { useWindowSize } from "../hooks/useWindowSize"
 import { CharacterEpisodes } from "./CharacterEpisodes"
 
 interface Props {
@@ -40,10 +40,10 @@ export const CharacterDetails = ({ character }: Props) => {
     setAnchorEl(null)
   }
 
+  const tableMediaQuery = useMediaQuery(`(min-width:${maxWidthTable}px)`)
+
   const open = Boolean(anchorEl)
   const id = open ? "simple-popover" : undefined
-
-  const windowSize = useWindowSize()
 
   return (
     <StyledTableCell
@@ -62,7 +62,13 @@ export const CharacterDetails = ({ character }: Props) => {
       >
         <VisibilityOutlinedIcon />
       </IconButton>
-      <Dialog open={open} onClose={handleClose} maxWidth="md" scroll="body">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="md"
+        scroll="body"
+        fullScreen={tableMediaQuery ? false : true}
+      >
         <DialogContent sx={{ p: 0 }}>
           <Container
             sx={{
@@ -70,7 +76,7 @@ export const CharacterDetails = ({ character }: Props) => {
               flexDirection: "column",
               justifyContent: "space-between",
               alignItems: "center",
-              width: "410px",
+              width: tableMediaQuery ? "410px" : "770px",
               maxWidth: "100%",
               height: "auto",
               paddingTop: "40px",
@@ -186,38 +192,40 @@ export const CharacterDetails = ({ character }: Props) => {
             </Box>
             <Box
               sx={{
-                display:
-                  windowSize.width === undefined ||
-                  windowSize.width <= maxWidthTable
-                    ? "inblock"
-                    : "none",
+                width: "80%",
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                margin: "auto",
               }}
             >
-              <CharacterEpisodes character={character} />
+              <Box sx={{ display: tableMediaQuery ? "none" : "inline-block" }}>
+                <CharacterEpisodes character={character} />
+              </Box>
+              <Button
+                sx={{
+                  borderStyle: "solid",
+                  borderWidth: "2px",
+                  width: "87px",
+                  height: "38px",
+                  padding: "10px, 20px, 10px, 20px",
+                  marginTop: "20px",
+                  textTransform: "none",
+                  fontFamily: "Montserrat",
+                  fontSize: "14px",
+                  lineHeight: "18px",
+                  color: "white",
+                  fontStyle: "normal",
+                  fontWeight: "400",
+                }}
+                onClick={handleClose}
+                color="primary"
+                size="large"
+                variant="outlined"
+              >
+                Close
+              </Button>
             </Box>
-            <Button
-              sx={{
-                borderStyle: "solid",
-                borderWidth: "2px",
-                width: "87px",
-                height: "38px",
-                padding: "10px, 20px, 10px, 20px",
-                marginTop: "20px",
-                textTransform: "none",
-                fontFamily: "Montserrat",
-                fontSize: "14px",
-                lineHeight: "18px",
-                color: "white",
-                fontStyle: "normal",
-                fontWeight: "400",
-              }}
-              onClick={handleClose}
-              color="primary"
-              size="large"
-              variant="outlined"
-            >
-              Close
-            </Button>
           </Container>
         </DialogContent>
       </Dialog>

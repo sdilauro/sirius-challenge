@@ -1,17 +1,16 @@
 import { Box, Container, Typography } from "@mui/material"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { ThemeProvider } from "@mui/material/styles"
 import "@fontsource/montserrat"
 import "./fonts.css"
 import MaterialTable from "./components/MaterialTable"
 import Image from "./components/Img"
+import { theme } from "./utils/config"
 
-const theme = createTheme({
-  typography: {
-    fontFamily: ["Roboto"].join(","),
-  },
-})
+
+
 
 function App() {
+  
   return (
     <ThemeProvider theme={theme}>
       <Container

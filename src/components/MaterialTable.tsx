@@ -1,11 +1,8 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight"
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft"
-import { styled } from "@mui/material/styles"
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
-import TableCell, { tableCellClasses } from "@mui/material/TableCell"
 import TableContainer from "@mui/material/TableContainer"
 import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
@@ -13,6 +10,7 @@ import Paper from "@mui/material/Paper"
 import { SetStateAction, useEffect, useState } from "react"
 import api from "../api"
 import { Character } from "../Interfaces"
+import { StyledTableCell, StyledTableRow } from "../utils/config"
 import {
   Box,
   TextField,
@@ -29,51 +27,6 @@ import { CharacterEpisodes } from "./CharacterEpisodes"
 import { visuallyHidden } from "@mui/utils"
 
 type Order = "asc" | "desc" | undefined
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "transparent",
-    color: "#00DFDD",
-    fontFamily: "Montserrat",
-    fontSize: "20px",
-    lineHeight: "20px",
-    width: "100%",
-  },
-
-  [`&.${tableCellClasses.body}`]: {
-    fontFamily: "Roboto",
-    fontSize: "18px",
-    lineHeight: "20px",
-    color: "white",
-    fontStyle: "normal",
-    fontWeight: "400",
-
-    border: 0,
-  },
-}))
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: "rgba(10, 34, 45, 0.7)",
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}))
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      light: "#00DFDD",
-      main: "#00DFDD",
-      dark: "#00DFDD",
-    },
-    secondary: {
-      main: "#00DFDD",
-    },
-  },
-})
 
 export default function MaterialTable() {
   const [characterList, setCharacterList] = useState<any[]>([])
@@ -177,7 +130,7 @@ export default function MaterialTable() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Box
         component="form"
         sx={{
@@ -277,13 +230,16 @@ export default function MaterialTable() {
                     }}
                   >
                     <TableRow>
-                      <StyledTableCell align="left" sx={{ width: "30%" }}>
+                      <StyledTableCell
+                        align="left"
+                        sx={{ minWidth: "55%", width: "55%" }}
+                      >
                         Name
                       </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ width: "15%" }}>
+                      <StyledTableCell align="left" sx={{ width: "10%" }}>
                         Status
                       </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ width: "135px" }}>
+                      <StyledTableCell align="left" sx={{ width: "14%" }}>
                         <TableSortLabel
                           hideSortIcon={sortIcon}
                           direction={speciesOrder}
@@ -297,8 +253,14 @@ export default function MaterialTable() {
                           </Box>
                         </TableSortLabel>
                       </StyledTableCell>
-                      <StyledTableCell align="left"></StyledTableCell>
-                      <StyledTableCell align="left"></StyledTableCell>
+                      <StyledTableCell
+                        align="left"
+                        sx={{ width: "10%" }}
+                      ></StyledTableCell>
+                      <StyledTableCell
+                        align="left"
+                        sx={{ width: "5%" }}
+                      ></StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -306,7 +268,6 @@ export default function MaterialTable() {
                       <StyledTableRow key={character.id}>
                         <StyledTableCell
                           align="left"
-                          component="th"
                           scope="row"
                           sx={{
                             borderTopLeftRadius: "8px",
@@ -365,6 +326,6 @@ export default function MaterialTable() {
           )}
         </Box>
       )}
-    </ThemeProvider>
+    </>
   )
 }

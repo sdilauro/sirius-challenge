@@ -1,5 +1,3 @@
-import { styled } from "@mui/material/styles"
-import TableCell, { tableCellClasses } from "@mui/material/TableCell"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
 import {
   IconButton,
@@ -11,10 +9,11 @@ import {
   DialogContent,
 } from "@mui/material"
 import { Container } from "@mui/system"
-import React from "react"
 import { Character } from "../Interfaces"
 import { CharacterField } from "./CharacterField"
 import preload from "./../preload.jpeg"
+import { StyledTableCell } from "../utils/config"
+import { useState } from "react"
 
 interface Props {
   character: Character
@@ -28,20 +27,8 @@ const properties = [
   { value: "gender", title: "Gender" },
 ]
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.body}`]: {
-    fontFamily: "Roboto",
-    fontSize: "18px",
-    lineHeight: "20px",
-    color: "white",
-    fontStyle: "normal",
-    fontWeight: "400",
-    border: 0,
-  },
-}))
-
 export const CharacterDetails = ({ character }: Props) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)

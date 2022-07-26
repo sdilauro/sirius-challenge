@@ -1,5 +1,3 @@
-import { createTheme, styled, ThemeProvider } from "@mui/material/styles"
-import TableCell, { tableCellClasses } from "@mui/material/TableCell"
 import {
   Typography,
   Button,
@@ -20,54 +18,12 @@ import React, { useEffect, useState } from "react"
 import { Episode, Character } from "../Interfaces"
 import api from "../api"
 import preload from "./../preload.jpeg"
+import { useWindowSize } from "../hooks/useWindowSize"
+import { StyledTableCell, StyledTableRow } from "../utils/config"
 
 interface Props {
   character: Character
 }
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#677378",
-    color: "#00DFDD",
-    fontFamily: "Montserrat",
-    fontSize: "14px",
-    lineHeight: "14px",
-  },
-
-  [`&.${tableCellClasses.body}`]: {
-    fontFamily: "Roboto",
-    fontSize: "12px",
-    lineHeight: "14px",
-    color: "white",
-    fontStyle: "normal",
-    fontWeight: "400",
-
-    border: 0,
-  },
-}))
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: "rgba(10, 34, 45, 0.7)",
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}))
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      light: "#00DFDD",
-      main: "#00DFDD",
-      dark: "#00DFDD",
-    },
-    secondary: {
-      main: "#00DFDD",
-    },
-  },
-})
 
 export const CharacterEpisodes = ({ character }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
@@ -75,6 +31,10 @@ export const CharacterEpisodes = ({ character }: Props) => {
   const [episodes, setEpisodes] = useState<string>("")
   const [success, setSuccess] = useState<boolean>(true)
   const [episodesLoaded, setEpisodesLoaded] = useState<boolean>(false)
+
+  const windowSize = useWindowSize()
+
+
 
   useEffect(() => {
     if (episodesLoaded === false) {
@@ -154,7 +114,7 @@ export const CharacterEpisodes = ({ character }: Props) => {
               backgroundColor: "#0A222D",
             }}
           >
-            <ThemeProvider theme={theme}>
+            
               <Box sx={{ width: "90%", margin: "auto", maxWidth: "1315px" }}>
                 {success ? (
                   <>
@@ -285,7 +245,7 @@ export const CharacterEpisodes = ({ character }: Props) => {
                   </Typography>
                 )}
               </Box>
-            </ThemeProvider>
+            
             <Button
               sx={{
                 borderStyle: "solid",

@@ -4,13 +4,11 @@ import "@fontsource/montserrat"
 import "./fonts.css"
 import MaterialTable from "./components/MaterialTable"
 import Image from "./components/Img"
-import { theme } from "./utils/config"
-
-
-
+import { theme, maxWidthTitle } from "./utils/config"
+import { useWindowSize } from "./hooks/useWindowSize"
 
 function App() {
-  
+  const windowSize = useWindowSize()
   return (
     <ThemeProvider theme={theme}>
       <Container
@@ -36,7 +34,11 @@ function App() {
         >
           <Typography
             sx={{
-              fontSize: "40px",
+              fontSize:
+                windowSize.width === undefined ||
+                windowSize.width >= maxWidthTitle
+                  ? "40px"
+                  : "18px",
               fontWeight: "400",
               lineHeight: "20px",
               color: "#00DFDD",

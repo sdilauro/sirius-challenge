@@ -12,8 +12,10 @@ import { Container } from "@mui/system"
 import { Character } from "../Interfaces"
 import { CharacterField } from "./CharacterField"
 import preload from "./../preload.jpeg"
-import { StyledTableCell } from "../utils/config"
+import { maxWidthTable, StyledTableCell } from "../utils/config"
 import { useState } from "react"
+import { useWindowSize } from "../hooks/useWindowSize"
+import { CharacterEpisodes } from "./CharacterEpisodes"
 
 interface Props {
   character: Character
@@ -40,6 +42,8 @@ export const CharacterDetails = ({ character }: Props) => {
 
   const open = Boolean(anchorEl)
   const id = open ? "simple-popover" : undefined
+
+  const windowSize = useWindowSize()
 
   return (
     <StyledTableCell
@@ -179,6 +183,17 @@ export const CharacterDetails = ({ character }: Props) => {
                     character.location.name.slice(1)}
                 </Typography>
               </Box>
+            </Box>
+            <Box
+              sx={{
+                display:
+                  windowSize.width === undefined ||
+                  windowSize.width <= maxWidthTable
+                    ? "inblock"
+                    : "none",
+              }}
+            >
+              <CharacterEpisodes character={character} />
             </Box>
             <Button
               sx={{

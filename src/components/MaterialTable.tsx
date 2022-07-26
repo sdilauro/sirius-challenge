@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper"
 import { SetStateAction, useEffect, useState } from "react"
 import api from "../api"
 import { Character } from "../Interfaces"
-import { StyledTableCell, StyledTableRow } from "../utils/config"
+import { maxWidthTable, StyledTableCell, StyledTableRow } from "../utils/config"
 import {
   Box,
   TextField,
@@ -19,12 +19,18 @@ import {
   Typography,
   TableSortLabel,
   CircularProgress,
+  PaginationItemClasses,
+  SxProps,
+  Theme,
+  PaginationProps,
 } from "@mui/material"
 import React from "react"
 import { CharacterDetails } from "./CharacterDetails"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { CharacterEpisodes } from "./CharacterEpisodes"
 import { visuallyHidden } from "@mui/utils"
+import { useWindowSize } from "../hooks/useWindowSize"
+import { CommonProps } from "@mui/material/OverridableComponent"
 
 type Order = "asc" | "desc" | undefined
 
@@ -128,6 +134,8 @@ export default function MaterialTable() {
   if (speciesOrder === undefined) {
     characterList.sort(name)
   }
+
+  const windowSize = useWindowSize()
 
   return (
     <>
@@ -236,10 +244,30 @@ export default function MaterialTable() {
                       >
                         Name
                       </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ width: "10%" }}>
+                      <StyledTableCell
+                        align="left"
+                        sx={{
+                          width: "10%",
+                          display:
+                            windowSize.width === undefined ||
+                            windowSize.width <= maxWidthTable
+                              ? "none"
+                              : "inblock",
+                        }}
+                      >
                         Status
                       </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ width: "14%" }}>
+                      <StyledTableCell
+                        align="left"
+                        sx={{
+                          width: "14%",
+                          display:
+                            windowSize.width === undefined ||
+                            windowSize.width <= maxWidthTable
+                              ? "none"
+                              : "inblock",
+                        }}
+                      >
                         <TableSortLabel
                           hideSortIcon={sortIcon}
                           direction={speciesOrder}
@@ -255,7 +283,14 @@ export default function MaterialTable() {
                       </StyledTableCell>
                       <StyledTableCell
                         align="left"
-                        sx={{ width: "10%" }}
+                        sx={{
+                          width: "10%",
+                          display:
+                            windowSize.width === undefined ||
+                            windowSize.width <= maxWidthTable
+                              ? "none"
+                              : "inblock",
+                        }}
                       ></StyledTableCell>
                       <StyledTableCell
                         align="left"
@@ -276,15 +311,42 @@ export default function MaterialTable() {
                         >
                           {character.name}
                         </StyledTableCell>
-                        <StyledTableCell align="left">
+                        <StyledTableCell
+                          align="left"
+                          sx={{
+                            display:
+                              windowSize.width === undefined ||
+                              windowSize.width <= maxWidthTable
+                                ? "none"
+                                : "inblock",
+                          }}
+                        >
                           {character.status.charAt(0).toUpperCase() +
                             character.status.slice(1)}
                         </StyledTableCell>
-                        <StyledTableCell align="left">
+                        <StyledTableCell
+                          align="left"
+                          sx={{
+                            display:
+                              windowSize.width === undefined ||
+                              windowSize.width <= maxWidthTable
+                                ? "none"
+                                : "inblock",
+                          }}
+                        >
                           {character.species.charAt(0).toUpperCase() +
                             character.species.slice(1)}
                         </StyledTableCell>
-                        <StyledTableCell align="left">
+                        <StyledTableCell
+                          align="left"
+                          sx={{
+                            display:
+                              windowSize.width === undefined ||
+                              windowSize.width <= maxWidthTable
+                                ? "none"
+                                : "inblock",
+                          }}
+                        >
                           <CharacterEpisodes character={character} />
                         </StyledTableCell>
                         <CharacterDetails character={character} />
@@ -295,7 +357,7 @@ export default function MaterialTable() {
               </TableContainer>
               <Pagination
                 sx={{
-                  color: "secondary",
+                  color: "primary",
                   width: "87.5%",
                   margin: "auto",
                   marginTop: "35px",
@@ -306,14 +368,17 @@ export default function MaterialTable() {
                 boundaryCount={1}
                 siblingCount={0}
                 size="small"
-                renderItem={(item) => (
+                renderItem={(item: any) => (
                   <PaginationItem
                     components={{
                       previous: KeyboardDoubleArrowLeftIcon,
                       next: KeyboardDoubleArrowRightIcon,
                     }}
                     {...item}
-                    sx={{ color: "white" }}
+                    sx={{
+                      color: "white",
+                      border: item.selected ? "solid 1px #00DFDD" : "none",
+                    }}
                   />
                 )}
               />

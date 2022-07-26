@@ -1,10 +1,12 @@
-import { TableRow } from "@mui/material"
+import { Pagination, paginationClasses, TableRow } from "@mui/material"
 import TableCell, { tableCellClasses } from "@mui/material/TableCell"
 import { createTheme, styled } from "@mui/material/styles"
 
-export const maxWidth = 650
+export const maxWidthTitle = 850
+export const maxWidthTable = 770
 
 export const theme = createTheme({
+
   palette: {
     primary: {
       light: "#00DFDD",
@@ -46,3 +48,4 @@ export const StyledTableRow = styled(TableRow)(({}) => ({
     border: 0,
   },
 }))
+

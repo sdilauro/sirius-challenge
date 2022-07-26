@@ -26,6 +26,9 @@ import React from "react"
 import { CharacterDetails } from "./CharacterDetails"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { CharacterEpisodes } from "./CharacterEpisodes"
+import { visuallyHidden } from "@mui/utils"
+
+type Order = "asc" | "desc" | undefined
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -79,6 +82,8 @@ export default function MaterialTable() {
   const [selectedPage, setSelectedPage] = useState<number>(1)
   const [success, setSuccess] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(true)
+  const [speciesOrder, setSpeciesOrder] = useState<Order>(undefined)
+  const [sortIcon, setSortIcon] = useState<boolean>(true)
 
   useEffect(() => {
     setLoading(true)
@@ -108,6 +113,7 @@ export default function MaterialTable() {
         })
     }
     setLoading(false)
+    characterList.sort(name)
   }, [characterName, selectedPage])
 
   const handleChangePage = (
@@ -124,8 +130,50 @@ export default function MaterialTable() {
     setSelectedPage(1)
   }
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault()
+  function name(a: Character, b: Character) {
+    if (a.name < b.name) {
+      return -1
+    }
+    if (a.name > b.name) {
+      return 1
+    }
+    return 0
+  }
+
+  function species(a: Character, b: Character) {
+    if (a.species < b.species) {
+      return -1
+    }
+    if (a.species > b.species) {
+      return 1
+    }
+    return 0
+  }
+
+  const handleChangeOrder = () => {
+    switch (speciesOrder) {
+      case "asc": {
+        setSpeciesOrder("desc")
+        setSortIcon(false)
+        characterList.sort(species).reverse()
+        break
+      }
+      case "desc": {
+        setSpeciesOrder(undefined)
+        setSortIcon(true)
+        characterList.sort(name)
+        break
+      }
+      case undefined: {
+        setSpeciesOrder("asc")
+        setSortIcon(false)
+        characterList.sort(species)
+        break
+      }
+    }
+  }
+  if (speciesOrder === undefined) {
+    characterList.sort(name)
   }
 
   return (
@@ -235,9 +283,18 @@ export default function MaterialTable() {
                       <StyledTableCell align="left" sx={{ width: "15%" }}>
                         Status
                       </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ width: "15%" }}>
-                        <TableSortLabel active={false} direction="asc">
-                          Specie
+                      <StyledTableCell align="left" sx={{ width: "135px" }}>
+                        <TableSortLabel
+                          hideSortIcon={sortIcon}
+                          direction={speciesOrder}
+                          onClick={handleChangeOrder}
+                        >
+                          Species
+                          <Box component="span" sx={visuallyHidden}>
+                            {speciesOrder === "desc"
+                              ? "sorted descending"
+                              : "sorted ascending"}
+                          </Box>
                         </TableSortLabel>
                       </StyledTableCell>
                       <StyledTableCell align="left"></StyledTableCell>

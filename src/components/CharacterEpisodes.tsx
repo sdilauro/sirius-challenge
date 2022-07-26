@@ -77,6 +77,9 @@ export const CharacterEpisodes = ({ character }: Props) => {
   const [episodesLoaded, setEpisodesLoaded] = useState<boolean>(false)
 
   useEffect(() => {
+    if (episodesLoaded === false) {
+      return
+    }
     api
       .getEpisodes(episodes)
       .then((json) => {
@@ -89,8 +92,7 @@ export const CharacterEpisodes = ({ character }: Props) => {
       })
   }, [episodesLoaded])
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
+  const loadEpisodes = (character: Character) => {
     let episodes: string = ""
     character.episode.forEach((element) => {
       episodes =
@@ -98,6 +100,11 @@ export const CharacterEpisodes = ({ character }: Props) => {
     })
     setEpisodes(episodes)
     setEpisodesLoaded(true)
+  }
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+    loadEpisodes(character)
   }
 
   const handleClose = () => {

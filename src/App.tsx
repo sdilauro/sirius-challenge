@@ -66,12 +66,12 @@ function App () {
             fontFamily: 'Montserrat'
           }}
         >
-          site made by{' '}
+          Site made by{' '}
           <a
             style={{ textDecoration: 'none', color: 'magenta' }}
             href="https://sdilauro.com"
           >
-            sdilauro
+            Sdilauro
           </a>
         </Typography>
       </Container>

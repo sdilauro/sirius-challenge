@@ -84,6 +84,12 @@ export default function MaterialTable () {
     setSelectedPage(1)
   }
 
+  const handleKeyPress = (event:React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+    }
+  }
+
   function name (a: Character, b: Character) {
     if (a.name < b.name) {
       return -1
@@ -172,6 +178,7 @@ export default function MaterialTable () {
               id="standard-basic"
               label=""
               onChange={onChangeHandler}
+              onKeyDown={handleKeyPress}
               value={characterName}
               variant="standard"
               placeholder="Search User"

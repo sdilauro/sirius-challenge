@@ -374,6 +374,7 @@ export default function MaterialTable () {
                     }}
                     {...item}
                     sx={{
+                      fontFamily: 'Montserrat',
                       color: 'white',
                       border: item.selected ? 'solid 1px #00DFDD' : 'none'
                     }}

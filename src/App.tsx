@@ -66,7 +66,7 @@ function App () {
             fontFamily: 'Montserrat'
           }}
         >
-          site designed by{' '}
+          site made by{' '}
           <a
             style={{ textDecoration: 'none', color: 'magenta' }}
             href="https://sdilauro.com"

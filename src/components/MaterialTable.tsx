@@ -384,8 +384,7 @@ export default function MaterialTable () {
               )
             : (
             <Typography color="#00DFDD" fontFamily={'Montserrat'}>
-              There was an error with the search criteria or communication with
-              the API.
+              Sorry, we couldn&apos;t find any results.
             </Typography>
               )}
         </Box>

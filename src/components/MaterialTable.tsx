@@ -1,16 +1,16 @@
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight"
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft"
-import Table from "@mui/material/Table"
-import TableBody from "@mui/material/TableBody"
-import TableContainer from "@mui/material/TableContainer"
-import TableHead from "@mui/material/TableHead"
-import TableRow from "@mui/material/TableRow"
-import Paper from "@mui/material/Paper"
-import { SetStateAction, useEffect, useState } from "react"
-import api from "../api"
-import { Character } from "../Interfaces"
-import { maxWidthTable, StyledTableCell, StyledTableRow } from "../utils/config"
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Paper from '@mui/material/Paper'
+import React, { SetStateAction, useEffect, useState } from 'react'
+import api from '../api'
+import { Character } from '../Interfaces'
+import { maxWidthTable, StyledTableCell, StyledTableRow } from '../utils/config'
 import {
   Box,
   TextField,
@@ -19,20 +19,20 @@ import {
   Typography,
   TableSortLabel,
   CircularProgress,
-  useMediaQuery,
-} from "@mui/material"
-import React from "react"
-import { CharacterDetails } from "./CharacterDetails"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { CharacterEpisodes } from "./CharacterEpisodes"
-import { visuallyHidden } from "@mui/utils"
+  useMediaQuery
+} from '@mui/material'
 
-type Order = "asc" | "desc" | undefined
+import { CharacterDetails } from './CharacterDetails'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { CharacterEpisodes } from './CharacterEpisodes'
+import { visuallyHidden } from '@mui/utils'
 
-export default function MaterialTable() {
+type Order = 'asc' | 'desc' | undefined
+
+export default function MaterialTable () {
   const [characterList, setCharacterList] = useState<any[]>([])
   const [pageCount, setPageCount] = useState<number>(1)
-  const [characterName, setCharacterName] = useState<string>("")
+  const [characterName, setCharacterName] = useState<string>('')
   const [selectedPage, setSelectedPage] = useState<number>(1)
   const [success, setSuccess] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(true)
@@ -41,7 +41,7 @@ export default function MaterialTable() {
 
   useEffect(() => {
     setLoading(true)
-    if (characterName === "") {
+    if (characterName === '') {
       api
         .getCharacters(selectedPage, characterName)
         .then((json) => {
@@ -50,7 +50,7 @@ export default function MaterialTable() {
           setSuccess(true)
         })
         .catch((err) => {
-          console.log("Error:", err)
+          console.log('Error:', err)
           setSuccess(false)
         })
     } else {
@@ -62,7 +62,7 @@ export default function MaterialTable() {
           setSuccess(true)
         })
         .catch((err) => {
-          console.log("Error:", err)
+          console.log('Error:', err)
           setSuccess(false)
         })
     }
@@ -84,7 +84,7 @@ export default function MaterialTable() {
     setSelectedPage(1)
   }
 
-  function name(a: Character, b: Character) {
+  function name (a: Character, b: Character) {
     if (a.name < b.name) {
       return -1
     }
@@ -94,7 +94,7 @@ export default function MaterialTable() {
     return 0
   }
 
-  function species(a: Character, b: Character) {
+  function species (a: Character, b: Character) {
     if (a.species < b.species) {
       return -1
     }
@@ -106,20 +106,20 @@ export default function MaterialTable() {
 
   const handleChangeOrder = () => {
     switch (speciesOrder) {
-      case "asc": {
-        setSpeciesOrder("desc")
+      case 'asc': {
+        setSpeciesOrder('desc')
         setSortIcon(false)
         characterList.sort(species).reverse()
         break
       }
-      case "desc": {
+      case 'desc': {
         setSpeciesOrder(undefined)
         setSortIcon(true)
         characterList.sort(name)
         break
       }
       case undefined: {
-        setSpeciesOrder("asc")
+        setSpeciesOrder('asc')
         setSortIcon(false)
         characterList.sort(species)
         break
@@ -137,19 +137,19 @@ export default function MaterialTable() {
       <Box
         component="form"
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "left",
-          width: "87.5%",
-          maxWidth: "1315px",
-          margin: "auto",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'left',
+          width: '87.5%',
+          maxWidth: '1315px',
+          margin: 'auto'
         }}
       >
         <Box
           sx={{
-            alignItems: "left",
-            width: "100%",
-            marginBottom: "31.5px",
+            alignItems: 'left',
+            width: '100%',
+            marginBottom: '31.5px'
           }}
         >
           <Box
@@ -157,18 +157,18 @@ export default function MaterialTable() {
             noValidate
             autoComplete="off"
             sx={{
-              width: "447px",
-              maxWidth: "80%",
-              paddingTop: "51px",
-              display: "flex",
-              alignItems: "center",
-              fontSize: "33px",
-              color: "#00DFDD",
+              width: '447px',
+              maxWidth: '80%',
+              paddingTop: '51px',
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: '33px',
+              color: '#00DFDD'
             }}
           >
             <FontAwesomeIcon icon={faMagnifyingGlass} color="inherit" />
             <TextField
-              sx={{ marginLeft: "22px", fontStyle: "inherit" }}
+              sx={{ marginLeft: '22px', fontStyle: 'inherit' }}
               id="standard-basic"
               label=""
               onChange={onChangeHandler}
@@ -179,67 +179,70 @@ export default function MaterialTable() {
               fullWidth
               InputProps={{
                 style: {
-                  fontFamily: "Montserrat",
-                  color: "#00DFDD",
-                  borderBlockColor: "#00DFDD",
-                },
+                  fontFamily: 'Montserrat',
+                  color: '#00DFDD',
+                  borderBlockColor: '#00DFDD'
+                }
               }}
               InputLabelProps={{
                 style: {
-                  fontFamily: "Montserrat",
-                  color: "#00DFDD",
-                  borderBlockColor: "#00DFDD",
-                },
+                  fontFamily: 'Montserrat',
+                  color: '#00DFDD',
+                  borderBlockColor: '#00DFDD'
+                }
               }}
             />
           </Box>
         </Box>
       </Box>
-      {loading ? (
+      {loading
+        ? (
         <Typography
-          component={"div"}
+          component={'div'}
           color="#00DFDD"
-          fontFamily={"Montserrat"}
+          fontFamily={'Montserrat'}
           sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center'
           }}
         >
           <CircularProgress />
           Loading...
         </Typography>
-      ) : (
-        <Box sx={{ width: "87.5%", margin: "auto", maxWidth: "1315px" }}>
-          {success ? (
+          )
+        : (
+        <Box sx={{ width: '87.5%', margin: 'auto', maxWidth: '1315px' }}>
+          {success
+            ? (
             <>
               <TableContainer
                 component={Paper}
                 sx={{
-                  width: "100%",
-                  margin: "auto",
-                  borderRadius: "8px",
-                  backgroundColor: "rgba(196, 196, 196, 0.5)",
+                  width: '100%',
+                  margin: 'auto',
+                  borderRadius: '8px',
+                  backgroundColor: 'rgba(196, 196, 196, 0.5)'
                 }}
               >
                 <Table
-                  sx={{ margin: "37px", width: "auto" }}
+                  sx={{ margin: '37px', width: 'auto' }}
                   aria-label="customized table"
                   size="small"
                 >
                   <TableHead
                     sx={{
-                      backgroundColor: "transparent",
+                      backgroundColor: 'transparent'
                     }}
                   >
                     <TableRow>
                       <StyledTableCell
                         align="left"
                         sx={{
-                          minWidth: "55%",
-                          width: "55%",
-                          fontSize: "20px",
-                          lineHeight: "22px",
+                          minWidth: '55%',
+                          width: '55%',
+                          fontSize: '20px',
+                          lineHeight: '22px'
                         }}
                       >
                         Name
@@ -247,10 +250,10 @@ export default function MaterialTable() {
                       <StyledTableCell
                         align="left"
                         sx={{
-                          width: "10%",
-                          display: tableMediaQuery ? "inblock" : "none",
-                          fontSize: tableMediaQuery ? "20px" : "12px",
-                          lineHeight: tableMediaQuery ? "22px" : "14px",
+                          width: '10%',
+                          display: tableMediaQuery ? 'inblock' : 'none',
+                          fontSize: tableMediaQuery ? '20px' : '12px',
+                          lineHeight: tableMediaQuery ? '22px' : '14px'
                         }}
                       >
                         Status
@@ -258,10 +261,10 @@ export default function MaterialTable() {
                       <StyledTableCell
                         align="left"
                         sx={{
-                          width: "14%",
-                          display: tableMediaQuery ? "inblock" : "none",
-                          fontSize: tableMediaQuery ? "20px" : "12px",
-                          lineHeight: tableMediaQuery ? "22px" : "14px",
+                          width: '14%',
+                          display: tableMediaQuery ? 'inblock' : 'none',
+                          fontSize: tableMediaQuery ? '20px' : '12px',
+                          lineHeight: tableMediaQuery ? '22px' : '14px'
                         }}
                       >
                         <TableSortLabel
@@ -271,22 +274,22 @@ export default function MaterialTable() {
                         >
                           Species
                           <Box component="span" sx={visuallyHidden}>
-                            {speciesOrder === "desc"
-                              ? "sorted descending"
-                              : "sorted ascending"}
+                            {speciesOrder === 'desc'
+                              ? 'sorted descending'
+                              : 'sorted ascending'}
                           </Box>
                         </TableSortLabel>
                       </StyledTableCell>
                       <StyledTableCell
                         align="left"
                         sx={{
-                          width: "10%",
-                          display: tableMediaQuery ? "inblock" : "none",
+                          width: '10%',
+                          display: tableMediaQuery ? 'inblock' : 'none'
                         }}
                       ></StyledTableCell>
                       <StyledTableCell
                         align="left"
-                        sx={{ width: "5%" }}
+                        sx={{ width: '5%' }}
                       ></StyledTableCell>
                     </TableRow>
                   </TableHead>
@@ -297,10 +300,10 @@ export default function MaterialTable() {
                           align="left"
                           scope="row"
                           sx={{
-                            borderTopLeftRadius: "8px",
-                            borderBottomLeftRadius: "8px",
-                            fontSize: "18px",
-                            lineHeight: "20px",
+                            borderTopLeftRadius: '8px',
+                            borderBottomLeftRadius: '8px',
+                            fontSize: '18px',
+                            lineHeight: '20px'
                           }}
                         >
                           {character.name}
@@ -308,9 +311,9 @@ export default function MaterialTable() {
                         <StyledTableCell
                           align="left"
                           sx={{
-                            display: tableMediaQuery ? "inblock" : "none",
-                            fontSize: tableMediaQuery ? "18px" : "10px",
-                            lineHeight: tableMediaQuery ? "20px" : "12px",
+                            display: tableMediaQuery ? 'inblock' : 'none',
+                            fontSize: tableMediaQuery ? '18px' : '10px',
+                            lineHeight: tableMediaQuery ? '20px' : '12px'
                           }}
                         >
                           {character.status.charAt(0).toUpperCase() +
@@ -319,9 +322,9 @@ export default function MaterialTable() {
                         <StyledTableCell
                           align="left"
                           sx={{
-                            display: tableMediaQuery ? "inblock" : "none",
-                            fontSize: tableMediaQuery ? "18px" : "10px",
-                            lineHeight: tableMediaQuery ? "20px" : "12px",
+                            display: tableMediaQuery ? 'inblock' : 'none',
+                            fontSize: tableMediaQuery ? '18px' : '10px',
+                            lineHeight: tableMediaQuery ? '20px' : '12px'
                           }}
                         >
                           {character.species.charAt(0).toUpperCase() +
@@ -330,9 +333,9 @@ export default function MaterialTable() {
                         <StyledTableCell
                           align="left"
                           sx={{
-                            display: tableMediaQuery ? "inblock" : "none",
-                            fontSize: tableMediaQuery ? "18px" : "10px",
-                            lineHeight: tableMediaQuery ? "20px" : "12px",
+                            display: tableMediaQuery ? 'inblock' : 'none',
+                            fontSize: tableMediaQuery ? '18px' : '10px',
+                            lineHeight: tableMediaQuery ? '20px' : '12px'
                           }}
                         >
                           <CharacterEpisodes character={character} />
@@ -345,10 +348,10 @@ export default function MaterialTable() {
               </TableContainer>
               <Pagination
                 sx={{
-                  color: "primary",
-                  width: "87.5%",
-                  margin: "auto",
-                  marginTop: "35px",
+                  color: 'primary',
+                  width: '87.5%',
+                  margin: 'auto',
+                  marginTop: '35px'
                 }}
                 shape="circular"
                 onChange={handleChangePage}
@@ -360,25 +363,26 @@ export default function MaterialTable() {
                   <PaginationItem
                     components={{
                       previous: KeyboardDoubleArrowLeftIcon,
-                      next: KeyboardDoubleArrowRightIcon,
+                      next: KeyboardDoubleArrowRightIcon
                     }}
                     {...item}
                     sx={{
-                      color: "white",
-                      border: item.selected ? "solid 1px #00DFDD" : "none",
+                      color: 'white',
+                      border: item.selected ? 'solid 1px #00DFDD' : 'none'
                     }}
                   />
                 )}
               />
             </>
-          ) : (
-            <Typography color="#00DFDD" fontFamily={"Montserrat"}>
+              )
+            : (
+            <Typography color="#00DFDD" fontFamily={'Montserrat'}>
               There was an error with the search criteria or communication with
               the API.
             </Typography>
-          )}
+              )}
         </Box>
-      )}
+          )}
     </>
   )
 }

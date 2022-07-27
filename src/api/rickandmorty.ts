@@ -1,4 +1,4 @@
-import { Episode } from "../Interfaces"
+import { Episode } from '../Interfaces'
 
 type Place = {
   name: string
@@ -54,6 +54,6 @@ export const getEpisodes = async (episodes: string) => {
   if (json.length >= 0) {
     return json as Array<Episode>
   } else {
-    throw new Error("error")
+    throw new Error('error')
   }
 }

@@ -39,6 +39,7 @@ export const getCharacters = async (page: number, name: string) => {
   const json: Response = await data.json()
 
   if (json.results && json.info) {
+    console.log('Request CHARACTERS completa')
     return json as Response
   } else {
     throw new Error(json.error)

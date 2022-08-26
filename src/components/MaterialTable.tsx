@@ -22,9 +22,11 @@ import {
   useMediaQuery
 } from '@mui/material'
 
-import { CharacterDetails } from './CharacterDetails'
+import { CharacterDetailsButton } from './CharacterDetailsButton'
+import { CharacterDetailsDialog } from './CharacterDetailsDialog'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { CharacterEpisodes } from './CharacterEpisodes'
+import { CharacterEpisodesButton } from './CharacterEpisodesButton'
+import { CharacterEpisodesDialog } from './CharacterEpisodesDialog'
 import { visuallyHidden } from '@mui/utils'
 
 type Order = 'asc' | 'desc' | undefined
@@ -38,6 +40,9 @@ export default function MaterialTable () {
   const [loading, setLoading] = useState<boolean>(true)
   const [speciesOrder, setSpeciesOrder] = useState<Order>(undefined)
   const [sortIcon, setSortIcon] = useState<boolean>(true)
+  const [currentCharacter, setCurrentCharacter] = useState<Character | null>(null)
+  const [episodesVisibility, setEpisodesVisibility] = useState<boolean>(false)
+  const [detailsVisibility, setDetailsVisibility] = useState<boolean>(false)
 
   useEffect(() => {
     setLoading(true)
@@ -137,6 +142,23 @@ export default function MaterialTable () {
   }
 
   const tableMediaQuery = useMediaQuery(`(min-width:${maxWidthTable}px)`)
+
+  function handleOpenEpisodes (char: Character) {
+    setCurrentCharacter(char)
+    setTimeout(() => setEpisodesVisibility(true), 150)
+  }
+  function handleCloseEpisodes () {
+    setTimeout(() => setCurrentCharacter(null), 150)
+    setEpisodesVisibility(false)
+  }
+  function handleOpenDetails (char:Character) {
+    setCurrentCharacter(char)
+    setTimeout(() => setDetailsVisibility(true), 150)
+  }
+  function handleCloseDetails () {
+    setTimeout(() => setCurrentCharacter(null), 150)
+    setDetailsVisibility(false)
+  }
 
   return (
     <>
@@ -345,14 +367,16 @@ export default function MaterialTable () {
                             lineHeight: tableMediaQuery ? '20px' : '12px'
                           }}
                         >
-                          <CharacterEpisodes character={character} />
+                          <CharacterEpisodesButton showEpisodes={() => handleOpenEpisodes(character)} />
                         </StyledTableCell>
-                        <CharacterDetails character={character} />
+                        <CharacterDetailsButton showDetails={() => handleOpenDetails(character)} />
                       </StyledTableRow>
                     ))}
                   </TableBody>
                 </Table>
-              </TableContainer>
+                  </TableContainer>
+                   <CharacterEpisodesDialog onClose={() => handleCloseEpisodes()} character={currentCharacter} open={episodesVisibility} />
+                   <CharacterDetailsDialog onClose={() => handleCloseDetails()} character={currentCharacter} open={detailsVisibility}/>
               <Pagination
                 sx={{
                   color: 'primary',
